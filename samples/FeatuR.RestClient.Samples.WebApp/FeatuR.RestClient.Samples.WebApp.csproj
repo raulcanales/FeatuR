@@ -8,5 +8,4 @@
     <ProjectReference Include="..\..\src\FeatuR.RestClient\src\FeatuR.RestClient\FeatuR.RestClient.csproj" />
   </ItemGroup>
 
-
 </Project>
