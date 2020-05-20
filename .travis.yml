@@ -3,9 +3,6 @@ mono: none
 sudo: required
 dist: bionic
 dotnet: 3.1
-
-install:
-  - dotnet restore ./FeatuR.sln
   
 branches:
   only:
