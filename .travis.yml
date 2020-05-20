@@ -3,8 +3,6 @@ mono: none
 sudo: required
 dist: bionic
 dotnet: 3.1
-install:
-  - dotnet restore
 
 branches:
   only:
@@ -17,8 +15,7 @@ before_script:
   - chmod -R a+x src
   
 script:
-  - dotnet build -c release
-  - dotnet test ./test/FeatuR.Tests/FeatuR.Tests.csproj
+  - ./scripts/build.sh
   - ./scripts/pack.sh
   
 notifications:
