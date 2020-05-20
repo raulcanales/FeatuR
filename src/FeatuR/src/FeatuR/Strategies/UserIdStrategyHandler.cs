@@ -2,13 +2,17 @@
 
 namespace FeatuR.Strategies
 {
+    /// <summary>
+    /// Evaluates the user id to determine if a feature should be enabled
+    /// </summary>
     public class UserIdStrategyHandler : IStrategyHandler
     {
         public const string AllowedUserIdsParameterName = "allowed";
         public const string ExcludedUserIdsParameterName = "excluded";
         public const string UserIdParameterName = "UserId";
         public const string Separator = ",";
-                
+               
+        /// <inheritdoc />
         public bool IsEnabled(Dictionary<string, string> parameters, IFeatureContext context = null)
         {
             var userId = string.Empty;

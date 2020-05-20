@@ -1,13 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Description>FeatuR is a simple library for managing feature toggles. See </Description>
+    <Description>FeatuR is a simple library for managing feature toggles</Description>
     <Copyright>Copyright Raul A. Canales</Copyright>
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>FeatuR</AssemblyName>
     <Title>FeatuR</Title>
     <PackageId>FeatuR</PackageId>
-    <PackageTags>featur;feature;toggles</PackageTags>
+    <PackageTags>featur;feature;toggle;experimental;branch</PackageTags>
     <Authors>Raul A. Canales</Authors>    
     <PackageProjectUrl>https://github.com/raulcanales/FeatuR</PackageProjectUrl>
     <RepositoryType>git</RepositoryType>
