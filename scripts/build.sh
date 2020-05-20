@@ -8,6 +8,6 @@ if [ -d $artifactsFolder ]; then
   rm -R $artifactsFolder
 fi
 
-dotnet restore
+dotnet restore ./FeatuR.sln
 dotnet test ./test/FeatuR.Tests/FeatuR.Tests.csproj -c Release
 dotnet build -c Release
