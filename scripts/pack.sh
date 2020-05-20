@@ -2,7 +2,7 @@
 for dir in src/*/
 do
     dir=${dir%*/}
-    echo Publishing NuGet package:  ${dir##*/}
+    echo Publishing NuGet package: ${dir##*/}
     exec ./$dir/scripts/dotnet-pack.sh &
     wait
 done
