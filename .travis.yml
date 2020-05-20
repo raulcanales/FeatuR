@@ -8,6 +8,7 @@ branches:
     - master
     - develop
 before_script:
+  - chmod -R a+x samples
   - chmod -R a+x scripts
   - chmod -R a+x src
 script:
