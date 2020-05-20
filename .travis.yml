@@ -11,7 +11,7 @@ install:
 branches:
   only:
     - master
-    - develop
+    - dev
     
 before_script:
   - chmod -R a+x samples
