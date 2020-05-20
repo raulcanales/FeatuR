@@ -1,6 +1,5 @@
 language: csharp
 mono: none
-solution: FeatuR.sln
 sudo: required
 dist: bionic
 dotnet: 3.1.300
