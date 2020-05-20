@@ -14,7 +14,7 @@ before_script:
   - chmod -R a+x src
 script:
   - dotnet build -c release
-  - dotnet test tests/
+  - dotnet test tests/FeatuR.Tests/FeatuR.Tests.csproj
   - ./scripts/pack.sh
 notifications:
   email:
