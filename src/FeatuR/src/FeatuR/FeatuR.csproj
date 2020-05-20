@@ -1,13 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <Description>FeatuR is a simple library for managing feature toggles. See https://github.com/raulcanales/FeatuR</Description>    
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Company>Raul A. Canales</Company>
+    <AssemblyName>FeatuR</AssemblyName>
+    <Title>FeatuR</Title>
+    <PackageId>FeatuR</PackageId>
+    <PackageTags>FeatuR</PackageTags>
     <Authors>Raul A. Canales</Authors>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile></DocumentationFile>
   </PropertyGroup>
 
 </Project>
