@@ -3,8 +3,11 @@ mono: none
 solution: FeatuR.sln
 sudo: required
 dist: bionic
-dotnet: 3.1
+dotnet: 3.1.300
 
+install:
+  - dotnet restore
+  
 branches:
   only:
     - master
@@ -16,7 +19,8 @@ before_script:
   - chmod -R a+x src
   
 script:
-  - ./scripts/build.sh
+  - dotnet test ./test/FeatuR.Tests/FeatuR.Tests.csproj -c Release
+  - dotnet build -c Release
   - ./scripts/pack.sh
   
 notifications:
