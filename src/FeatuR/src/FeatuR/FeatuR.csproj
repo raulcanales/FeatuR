@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Description>FeatuR is a simple library for managing feature toggles</Description>
+    <Description>Simple and customizable library for managing feature toggles</Description>
     <Copyright>Copyright Raul A. Canales</Copyright>
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>FeatuR</AssemblyName>
@@ -13,9 +13,10 @@
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>git://github.com/raulcanales/FeatuR</RepositoryUrl>        
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <!--<SignAssembly>true</SignAssembly>-->
-    <!--<AssemblyOriginatorKeyFile>..\..\FeatuR.snk</AssemblyOriginatorKeyFile>-->
-    <!--<PackageIcon>gradient_128x128.png</PackageIcon>-->
+    <PackageIcon>on_128.png</PackageIcon>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Include="..\..\..\..\assets\logo\on_128.png" Pack="true" PackagePath=""/>
+  </ItemGroup>
 </Project>
