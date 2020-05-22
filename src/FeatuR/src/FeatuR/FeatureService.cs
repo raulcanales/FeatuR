@@ -5,6 +5,7 @@ using System.Reflection;
 
 namespace FeatuR
 {
+    /// <inheritdoc />
     public class FeatureService : IFeatureService
     {
         private readonly IFeatureStore _featureStore;
@@ -15,7 +16,9 @@ namespace FeatuR
             _featureStore = featureStore;
         }
 
+        /// <inheritdoc />
         public bool IsFeatureEnabled(string featureId) => IsFeatureEnabledCore(featureId, null);
+        /// <inheritdoc />
         public bool IsFeatureEnabled(string featureId, FeatureContext context) => IsFeatureEnabledCore(featureId, context);
         
         /// <summary>
