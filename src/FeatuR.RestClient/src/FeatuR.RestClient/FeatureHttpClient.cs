@@ -16,7 +16,8 @@ namespace FeatuR.RestClient
             _httpClient = httpClient;
             _settings = settings;
             _httpClient.BaseAddress = new Uri(_settings.BaseUrl);
-            _httpClient.Timeout = TimeSpan.FromSeconds(_settings.TimeoutSeconds);
+            if (_settings.TimeoutSeconds > 0)
+                _httpClient.Timeout = TimeSpan.FromSeconds(_settings.TimeoutSeconds);
         }
 
         internal async Task<IDictionary<string, bool>> EvaluateFeaturesAsync(IEnumerable<string> featureIds, IFeatureContext context)
