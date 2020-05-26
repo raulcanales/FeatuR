@@ -27,5 +27,13 @@ namespace FeatuR
         /// <param name="context">Context containing extra properties for a given scope</param>
         /// <returns>List with al the id's of the features that are enabled for the given <see cref="IFeatureContext"/></returns>
         IEnumerable<string> GetEnabledFeatures(IFeatureContext context);
+
+        /// <summary>
+        /// Evaluates a list of features to determine which ones are enabled for the given <see cref="IFeatureContext"/>.
+        /// </summary>
+        /// <param name="featureIds">List of feature ids to evaluate</param>
+        /// <param name="context">Context containing possible data to evaluate</param>
+        /// <returns>Dictionary where the key is the feature id, and the value is a boolean indicating if a feature is enabled or not</returns>
+        IDictionary<string, bool> EvaluateFeatures(IEnumerable<string> featureIds, IFeatureContext context);
     }
 }

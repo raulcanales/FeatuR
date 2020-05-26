@@ -7,6 +7,7 @@ namespace FeatuR.RestClient
         public string BaseUrl { get; set; }
         public string IsFeatureEnabledEndpoint { get; set; } = "feature/{featureId}";
         public string GetAllEnabledFeaturesEndpoint { get; set; } = "features";
+        public string EvaluateFeaturesEndpoint { get; set; } = "features/evaluate";
         public int TimeoutSeconds { get; set; }
 
         public void ValidateSettings()

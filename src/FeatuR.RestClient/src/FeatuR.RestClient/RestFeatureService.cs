@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace FeatuR.RestClient
 {
@@ -12,14 +13,26 @@ namespace FeatuR.RestClient
             _httpClient = httpClient;
         }
 
-        public IEnumerable<string> GetEnabledFeatures(IFeatureContext context) => _httpClient.GetEnabledFeatures(context).Result;
-        public bool IsFeatureEnabled(string featureId) => IsFeatureEnabled(featureId, null);
+        public IDictionary<string, bool> EvaluateFeatures(IEnumerable<string> featureIds, IFeatureContext context)
+        {
+            if (featureIds == null || !featureIds.Any())
+                throw new ArgumentNullException(nameof(featureIds));
+
+            return _httpClient.EvaluateFeaturesAsync(featureIds, context).Result;
+        }
+
+        public IEnumerable<string> GetEnabledFeatures(IFeatureContext context) 
+            => _httpClient.GetEnabledFeaturesAsync(context).Result;
+
+        public bool IsFeatureEnabled(string featureId) 
+            => IsFeatureEnabled(featureId, null);
+
         public bool IsFeatureEnabled(string featureId, IFeatureContext context)
         {
             if (string.IsNullOrWhiteSpace(featureId))
                 throw new ArgumentNullException(nameof(featureId));
 
-            return _httpClient.IsFeatureEnabled(featureId, context).Result;
+            return _httpClient.IsFeatureEnabledAsync(featureId, context).Result;
         }
     }
 }

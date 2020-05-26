@@ -19,48 +19,59 @@ namespace FeatuR.RestClient
             _httpClient.Timeout = TimeSpan.FromSeconds(_settings.TimeoutSeconds);
         }
 
-        internal async Task<IEnumerable<string>> GetEnabledFeatures(IFeatureContext context)
+        internal async Task<IDictionary<string, bool>> EvaluateFeaturesAsync(IEnumerable<string> featureIds, IFeatureContext context)
+            => await Post<IDictionary<string, bool>>(featureIds, _settings.EvaluateFeaturesEndpoint, context);
+
+        internal async Task<IEnumerable<string>> GetEnabledFeaturesAsync(IFeatureContext context)
+            => await Get<IEnumerable<string>>(_settings.GetAllEnabledFeaturesEndpoint, context);
+
+        internal async Task<bool> IsFeatureEnabledAsync(string featureId, IFeatureContext context)
+            => await Get<bool>(_settings.IsFeatureEnabledEndpoint.Replace("{featureId}", featureId), context);
+
+        private async Task<TResponse> Get<TResponse>(string endpoint, IFeatureContext context)
         {
             try
             {
                 SetHeadersFromContext(context);
-                using (var response = await _httpClient.GetAsync(_settings.GetAllEnabledFeaturesEndpoint))
+                using (var response = await _httpClient.GetAsync(endpoint))
                 {
                     if (!response.IsSuccessStatusCode)
                         return default;
 
                     var content = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<IEnumerable<string>>(content);
+                    return JsonConvert.DeserializeObject<TResponse>(content);
                 }
+
             }
             catch
             {
-                // Silent exception. Just return default
+                // silent exception
             }
 
             return default;
         }
 
-        internal async Task<bool> IsFeatureEnabled(string featureId, IFeatureContext context)
+        private async Task<TResponse> Post<TResponse>(object request, string endpoint, IFeatureContext context)
         {
             try
             {
                 SetHeadersFromContext(context);
-                using (var response = await _httpClient.GetAsync(_settings.IsFeatureEnabledEndpoint.Replace("{featureId}", featureId)))
+                using (var response = await _httpClient.GetAsync(endpoint))
                 {
                     if (!response.IsSuccessStatusCode)
-                        return false;
+                        return default;
 
                     var content = await response.Content.ReadAsStringAsync();
-                    return Convert.ToBoolean(content);
+                    return JsonConvert.DeserializeObject<TResponse>(content);
                 }
+
             }
             catch
             {
-                // Silent exception. Just return false
+                // silent exception
             }
 
-            return false;
+            return default;
         }
 
         private void SetHeadersFromContext(IFeatureContext context)

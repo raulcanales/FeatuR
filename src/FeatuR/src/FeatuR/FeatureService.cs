@@ -35,6 +35,20 @@ namespace FeatuR
             return featureIds;
         }
 
+        /// <inheritdoc />
+        public IDictionary<string, bool> EvaluateFeatures(IEnumerable<string> featureIds, IFeatureContext context)
+        {
+            var result = new Dictionary<string, bool>();
+            foreach (var featureId in featureIds)
+            {
+                if (string.IsNullOrWhiteSpace(featureId) || result.ContainsKey(featureId))
+                    continue;
+
+                result.Add(featureId, IsFeatureEnabled(featureId, context));
+            }
+            return result;
+        }
+
         /// <summary>
         /// Can be overrided in a derived class to control how this is implemented. By default, will retrieve a feature and run a foreach with all the activation strategies
         /// </summary>
