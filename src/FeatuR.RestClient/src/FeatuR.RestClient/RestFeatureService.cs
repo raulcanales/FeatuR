@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace FeatuR.RestClient
 {
@@ -11,8 +12,9 @@ namespace FeatuR.RestClient
             _httpClient = httpClient;
         }
 
+        public IEnumerable<string> GetEnabledFeatures(IFeatureContext context) => _httpClient.GetEnabledFeatures(context).Result;
         public bool IsFeatureEnabled(string featureId) => IsFeatureEnabled(featureId, null);
-        public bool IsFeatureEnabled(string featureId, FeatureContext context)
+        public bool IsFeatureEnabled(string featureId, IFeatureContext context)
         {
             if (string.IsNullOrWhiteSpace(featureId))
                 throw new ArgumentNullException(nameof(featureId));

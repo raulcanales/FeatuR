@@ -1,7 +1,8 @@
-﻿using Microsoft.Extensions.Options;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace FeatuR.RestClient
 {
@@ -18,31 +19,57 @@ namespace FeatuR.RestClient
             _httpClient.Timeout = TimeSpan.FromSeconds(_settings.TimeoutSeconds);
         }
 
-        public async Task<bool> IsFeatureEnabled(string featureId, IFeatureContext context)
+        internal async Task<IEnumerable<string>> GetEnabledFeatures(IFeatureContext context)
         {
             try
             {
-                if (context != null)                
-                    foreach(var kv in context.Parameters)
-                    {
-                        _httpClient.DefaultRequestHeaders.Add(kv.Key, kv.Value);
-                    }                                    
+                SetHeadersFromContext(context);
+                using (var response = await _httpClient.GetAsync(_settings.GetAllEnabledFeaturesEndpoint))
+                {
+                    if (!response.IsSuccessStatusCode)
+                        return default;
 
-                using (var response = await _httpClient.GetAsync(_settings.FeatureEndpoint.Replace("{featureId}", featureId)))
+                    var content = await response.Content.ReadAsStringAsync();
+                    return JsonConvert.DeserializeObject<IEnumerable<string>>(content);
+                }
+            }
+            catch
+            {
+                // Silent exception. Just return default
+            }
+
+            return default;
+        }
+
+        internal async Task<bool> IsFeatureEnabled(string featureId, IFeatureContext context)
+        {
+            try
+            {
+                SetHeadersFromContext(context);
+                using (var response = await _httpClient.GetAsync(_settings.IsFeatureEnabledEndpoint.Replace("{featureId}", featureId)))
                 {
                     if (!response.IsSuccessStatusCode)
                         return false;
 
                     var content = await response.Content.ReadAsStringAsync();
                     return Convert.ToBoolean(content);
-                }                
+                }
             }
-            catch 
+            catch
             {
                 // Silent exception. Just return false
             }
 
             return false;
+        }
+
+        private void SetHeadersFromContext(IFeatureContext context)
+        {
+            if (context == null)
+                return;
+
+            foreach (var kv in context.Parameters)
+                _httpClient.DefaultRequestHeaders.Add(kv.Key, kv.Value);
         }
     }
 }
