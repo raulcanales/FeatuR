@@ -21,6 +21,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FeatuR.RestClient.Tests", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FeatuR.Sql", "src\FeatuR.Sql\src\FeatuR.Sql\FeatuR.Sql\FeatuR.Sql.csproj", "{FF289F4A-90E5-4B11-875F-1E7CB8A5BCF5}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FeatuR.Samples.WebApp", "samples\FeatuR.Samples.WebApp\FeatuR.Samples.WebApp.csproj", "{0359602D-5B9B-4585-9824-4E9E31F2F6D2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{FF289F4A-90E5-4B11-875F-1E7CB8A5BCF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF289F4A-90E5-4B11-875F-1E7CB8A5BCF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF289F4A-90E5-4B11-875F-1E7CB8A5BCF5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0359602D-5B9B-4585-9824-4E9E31F2F6D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0359602D-5B9B-4585-9824-4E9E31F2F6D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0359602D-5B9B-4585-9824-4E9E31F2F6D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0359602D-5B9B-4585-9824-4E9E31F2F6D2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -62,6 +68,7 @@ Global
 		{CF7268E4-62B3-4F1F-A803-8F227B9DA5C7} = {743A8C12-EC52-4431-9396-C81538EF231C}
 		{880005DC-73BC-4FC3-A741-F028A2581338} = {33EB9376-C011-4731-8491-EF6025C49902}
 		{FF289F4A-90E5-4B11-875F-1E7CB8A5BCF5} = {70E59C6C-618E-49D7-81E6-FF8E711432A8}
+		{0359602D-5B9B-4585-9824-4E9E31F2F6D2} = {743A8C12-EC52-4431-9396-C81538EF231C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AC9DA31B-2142-4BC1-8684-012B35870A13}
