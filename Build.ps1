@@ -22,7 +22,7 @@ function Exec
     }
 }
 
-if(Test-Path .\src\FeatuR\src\FeatuR\artifacts) { Remove-Item .\src\FeatuR\src\FeatuR\artifacts -Force -Recurse }
+if(Test-Path .\src\FeatuR\artifacts) { Remove-Item .\src\FeatuR\artifacts -Force -Recurse }
 
 $branch = @{ $true = $env:APPVEYOR_REPO_BRANCH; $false = $(git symbolic-ref --short -q HEAD) }[$env:APPVEYOR_REPO_BRANCH -ne $NULL];
 $revision = @{ $true = "{0:00000}" -f [convert]::ToInt32("0" + $env:APPVEYOR_BUILD_NUMBER, 10); $false = "local" }[$env:APPVEYOR_BUILD_NUMBER -ne $NULL];
@@ -46,4 +46,4 @@ try {
 
 Pop-Location
 
-exec { & dotnet pack .\src\FeatuR\src\FeatuR.csproj -c Release -o .\artifacts --include-symbols --no-build $versionSuffix }
+exec { & dotnet pack .\src\FeatuR\FeatuR.csproj -c Release -o .\artifacts --include-symbols --no-build $versionSuffix }

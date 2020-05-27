@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\FeatuR\src\FeatuR\FeatuR.csproj" />
+    <ProjectReference Include="..\FeatuR\FeatuR.csproj" />
   </ItemGroup>
 
 </Project>

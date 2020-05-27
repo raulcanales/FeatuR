@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\FeatuR\src\FeatuR\FeatuR.csproj" />
+    <ProjectReference Include="..\..\src\FeatuR\FeatuR.csproj" />
   </ItemGroup>
 
 </Project>
