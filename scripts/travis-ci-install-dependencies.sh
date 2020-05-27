@@ -12,8 +12,8 @@ if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then
 	sudo apt-get -qq install -y mono-complete unzip wget
 
 	# Install the MSBuild Sonar scanner
-	wget -O sonar.zip https://github.com/SonarSource/sonar-scanner-msbuild/releases/download/4.0.2.892/sonar-scanner-msbuild-4.0.2.892.zip
+	wget -O sonar.zip https://github.com/SonarSource/sonar-scanner-msbuild/releases/download/4.9.0.17385/sonar-scanner-msbuild-4.9.0.17385-netcoreapp3.0.zip
 	unzip -qq sonar.zip -d tools/sonar
 	ls -l tools/sonar
-	chmod +x tools/sonar/sonar-scanner-3.0.3.778/bin/sonar-scanner
+	chmod +x tools/sonar/sonar-scanner-4.3.0.2102/bin/sonar-scanner
 fi
