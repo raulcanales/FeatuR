@@ -8,7 +8,7 @@ addons:
   sonarcloud:
     organization: "raulcanales"
     token:
-      secure: SONARCLOUD_TOKEN
+      secure: $SONARCLOUD_TOKEN
   
 branches:
   only:
