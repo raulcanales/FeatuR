@@ -13,7 +13,7 @@ The future plans, will include a standalone API service with a small database, t
 
 |                   | Official | Preview |
 |-------------------|:--------:|:-------:|
-| &nbsp;&nbsp;**FeatuR**            |    [![NuGet Badge WireMock.Net](https://buildstats.info/nuget/FeatuR)](https://www.nuget.org/packages/FeatuR)   |   [![MyGet Badge WireMock.Net](https://buildstats.info/myget/featur/FeatuR)](https://www.myget.org/feed/featur/package/nuget/FeatuR)   |
+| &nbsp;&nbsp;**FeatuR**            |    [![NuGet Badge](https://buildstats.info/nuget/FeatuR)](https://www.nuget.org/packages/FeatuR)   |   [![MyGet Badge](https://buildstats.info/myget/featur/FeatuR)](https://www.myget.org/feed/featur/package/nuget/FeatuR)   |
 | &nbsp;&nbsp;**FeatuR.RestClient** |    Coming soon   |   Coming soon   |
 | &nbsp;&nbsp;**FeatuR.Sql**        |    Coming soon   |   Coming soon   |
 
