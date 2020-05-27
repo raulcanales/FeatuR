@@ -23,7 +23,7 @@ before_script:
 - chmod -R a+x src
 script:
 - dotnet sonarscanner begin /k:"FeatuR" /d:sonar.login="$SONAR_TOKEN" /d:sonar.exclusions="**/bin/**/*,**/obj/**/*" /d:sonar.cs.opencover.reportsPaths="lcov.opencover.xml" || true
-- dotnet test ./test/FeatuR.Tests/FeatuR.Tests.csproj -c Release
+- dotnet test ./test/FeatuR.Tests/FeatuR.Tests.csproj -c Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
 - dotnet build -c Release
 - dotnet sonarscanner end /d:sonar.login="$SONAR_TOKEN" || true
 - ./scripts/pack.sh
