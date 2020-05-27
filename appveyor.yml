@@ -17,4 +17,11 @@ deploy:
     secure: zebWexWPWCJtuRguA56QCOyaDW15/XC52XwNxDX9Sx3+FXRfxq8lRg4ZENXj900E
   skip_symbols: true
   on:
-    branch: master
+    branch: preview
+- provider: NuGet
+  name: production
+  skip_symbols: true
+  api_key:
+    secure: AKSp7zFyQrcBGPeauMFoyCnDxef6opcPRtL7IVksr7CapB6F/C00FpF0Y5bpzCmS
+  on:
+    appveyor_repo_tag: true
