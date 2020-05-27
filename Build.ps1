@@ -32,7 +32,7 @@ $buildSuffix = @{ $true = "$($suffix)-$($commitHash)"; $false = "$($branch)-$($c
 $versionSuffix = @{ $true = "--version-suffix=$($suffix)"; $false = ""}[$suffix -ne ""]
 
 echo "build: Package version suffix is $suffix"
-echo "build: Build version suffix is $buildSuffix" 
+echo "build: Build version suffix is $buildSuffix"
 
 exec { & dotnet build FeatuR.sln -c Release --version-suffix=$buildSuffix }
 
