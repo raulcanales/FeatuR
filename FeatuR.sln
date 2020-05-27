@@ -21,8 +21,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FeatuR.RestClient.Tests", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FeatuR.Sql", "src\FeatuR.Sql\src\FeatuR.Sql\FeatuR.Sql\FeatuR.Sql.csproj", "{FF289F4A-90E5-4B11-875F-1E7CB8A5BCF5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FeatuR.Samples.WebApp", "samples\FeatuR.Samples.WebApp\FeatuR.Samples.WebApp.csproj", "{0359602D-5B9B-4585-9824-4E9E31F2F6D2}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
