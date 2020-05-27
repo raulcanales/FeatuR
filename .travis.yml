@@ -1,5 +1,5 @@
 language: csharp
-mono: none
+mono: latest
 sudo: required
 dist: bionic
 dotnet: 3.1
