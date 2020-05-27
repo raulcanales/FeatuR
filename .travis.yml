@@ -16,6 +16,7 @@ before_script:
 script:
   - dotnet test ./test/FeatuR.Tests/FeatuR.Tests.csproj -c Release
   - dotnet build -c Release
+  - ./scripts/pack.sh
   
 notifications:
   email:
