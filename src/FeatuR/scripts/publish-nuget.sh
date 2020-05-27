@@ -2,10 +2,10 @@
 echo Executing after success scripts on branch $TRAVIS_BRANCH
 echo Triggering Nuget package build
 
-cd src/FeatuR/src/FeatuR
-dotnet pack -c release /p:PackageVersion=0.1.$TRAVIS_BUILD_NUMBER --no-restore -o .
+VERSION=$(git tag)
 
-echo Uploading Convey package to Nuget using branch $TRAVIS_BRANCH
+cd src/FeatuR/src/FeatuR
+dotnet pack -c release /p:PackageVersion=$VERSION-preview-$TRAVIS_BUILD_NUMBER --no-restore -o .
 
 case "$TRAVIS_BRANCH" in
   "master")
