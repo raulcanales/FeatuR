@@ -7,19 +7,24 @@ addons:
   sonarcloud:
     organization: raulcanales
     token:
-      secure: "EvCzL36jCxyfyK/yra06jCGJUKfsj45AC1f/eyZ9kT3C7rGnk6Qy5H2E1B5NCO5DG8Vxi0Wa2i89aZZoA1D/xywgJWBanzc0mACTwd3Ot4u8a84IWqOC92ln1pu/6bebsYGkGMaysbwbEZ8tDgKjlVIwU1AnpuWpcjLsBcZLj1I+JQ5KwLKZxNKZCYz3O8lokYek3j8lxkeKQmPtpy8TqcwD26sdznvNf1HESICne8MdmxjCVO4sqIqj3dmcLysX1Tn0U8xNQxkFH7+glcIfb9LQJCfeNqtbY3v86RLVcqMDtTkdxzYD7RDz6pCBlF9C9L6wRCEPJlX9JQjKmB3ReD+1E2hsDGIT4nwbi4LXMrrF+2amhxBWAZeaq+uDuSqrlHsYiES1oP2+wK7EBf2C4tkg+txFk8SjnNF+bc+8BlcOnP8fDNbhA/E5KctVofei8qj+tVlsBPcf3V0dh4tJ56Laoo/5I7deJTPmawEl5J2kRksS7Ay2VJLBBf4QPhAySl10doMagKQPAaHEa2BbghkpAdEFKtN81GNLHB5GQBBZwriIMHOzcPTdhyOQSNB5yZg6kYdudKtHVxfqrndQa7TBs5Mrmd8QDI5ZGN/10n2pR/l6uunx6grsmtXMEoFkvX/bIBYMFsU5BaIU7uZgZmqnIkVG8TxWw9tdIIV0mLo="
+      secure: $SONAR_TOKEN
 branches:
   only:
   - master
   - dev
+  
+install:
+- dotnet tool install --global dotnet-sonarscanner
+  
 before_script:
 - chmod -R a+x scripts
 - chmod -R a+x src
 script:
+- dotnet sonarscanner begin /k:"FeatuR" /d:sonar.login="$SONAR_TOKEN" /d:sonar.exclusions="**/bin/**/*,**/obj/**/*" /d:sonar.cs.opencover.reportPaths="lcov.opencover.xml" || true
 - dotnet test ./test/FeatuR.Tests/FeatuR.Tests.csproj -c Release
 - dotnet build -c Release
-- sonar-scanner
-- "./scripts/pack.sh"
+-dotnet sonarscanner end /d:sonar.login="$SONAR_TOKEN" || true
+- ./scripts/pack.sh
 notifications:
   email:
     on_success: never
