@@ -3,6 +3,7 @@ mono: none
 sudo: required
 dist: bionic
 dotnet: 3.1
+solution: FeatuR.sln
 addons:
   sonarcloud:
     organization: raulcanales
@@ -17,13 +18,14 @@ install:
 - dotnet tool install --global dotnet-sonarscanner
   
 before_script:
+- export PATH="$PATH:$HOME/.dotnet/tools"
 - chmod -R a+x scripts
 - chmod -R a+x src
 script:
-- dotnet sonarscanner begin /k:"FeatuR" /d:sonar.login="$SONAR_TOKEN" /d:sonar.exclusions="**/bin/**/*,**/obj/**/*" /d:sonar.cs.opencover.reportPaths="lcov.opencover.xml" || true
+- dotnet sonarscanner begin /k:"FeatuR" /d:sonar.login="$SONAR_TOKEN" /d:sonar.exclusions="**/bin/**/*,**/obj/**/*" /d:sonar.cs.opencover.reportsPaths="lcov.opencover.xml" || true
 - dotnet test ./test/FeatuR.Tests/FeatuR.Tests.csproj -c Release
 - dotnet build -c Release
--dotnet sonarscanner end /d:sonar.login="$SONAR_TOKEN" || true
+- dotnet sonarscanner end /d:sonar.login="$SONAR_TOKEN" || true
 - ./scripts/pack.sh
 notifications:
   email:
