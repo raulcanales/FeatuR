@@ -13,8 +13,8 @@ if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then
 
 	# Install the MSBuild Sonar scanner
 	wget -O sonar.zip https://github.com/SonarSource/sonar-scanner-msbuild/releases/download/4.9.0.17385/sonar-scanner-msbuild-4.9.0.17385-netcoreapp3.0.zip
-	sudo mkdir tools/sonar
-	unzip -qq sonar.zip -d tools/sonar
-	ls -l tools/sonar
-	chmod +x tools/sonar/sonar-scanner-4.3.0.2102/bin/sonar-scanner
+	sudo mkdir tools
+	unzip -qq sonar.zip -d tools
+	ls -l tools
+	chmod +x tools/sonar-scanner-4.3.0.2102/bin/sonar-scanner
 fi
