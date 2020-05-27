@@ -24,12 +24,13 @@ function Exec
 
 if(Test-Path .\src\FeatuR\artifacts) { Remove-Item .\src\FeatuR\artifacts -Force -Recurse }
 
+$version = $(git describe --tags --abbrev=0)
 $branch = @{ $true = $env:APPVEYOR_REPO_BRANCH; $false = $(git symbolic-ref --short -q HEAD) }[$env:APPVEYOR_REPO_BRANCH -ne $NULL];
 $revision = @{ $true = "{0:00000}" -f [convert]::ToInt32("0" + $env:APPVEYOR_BUILD_NUMBER, 10); $false = "local" }[$env:APPVEYOR_BUILD_NUMBER -ne $NULL];
 $suffix = @{ $true = ""; $false = "$($branch.Substring(0, [math]::Min(10,$branch.Length)))-$revision"}[$branch -eq "master" -and $revision -ne "local"]
 $commitHash = $(git rev-parse --short HEAD)
 $buildSuffix = @{ $true = "$($suffix)-$($commitHash)"; $false = "$($branch)-$($commitHash)" }[$suffix -ne ""]
-$versionSuffix = @{ $true = "--version-suffix=$($suffix)"; $false = ""}[$suffix -ne ""]
+$versionSuffix = $("--version-suffix=$($version)")
 
 echo "build: Package version suffix is $suffix"
 echo "build: Build version suffix is $buildSuffix"
@@ -46,4 +47,4 @@ try {
 
 Pop-Location
 
-exec { & dotnet pack .\src\FeatuR\FeatuR.csproj -c Release -o .\artifacts --include-symbols --no-build $versionSuffix }
+exec { & dotnet pack .\src\FeatuR\FeatuR.csproj -c Release -o .\artifacts --include-symbols --no-build /p:Version=$($version)-preview-$($revision) }

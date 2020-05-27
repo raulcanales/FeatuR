@@ -1,9 +1,0 @@
-<Project>
-  <PropertyGroup>
-    <Authors>Raúl A. Canales</Authors>
-    <LangVersion>latest</LangVersion>
-    <VersionPrefix>1.0.2</VersionPrefix>
-    <NoWarn>$(NoWarn);1701;1702;1591</NoWarn>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-  </PropertyGroup>
-</Project>
