@@ -27,12 +27,21 @@ namespace FeatuR.RestClient.Samples.WebApp.Controllers
         /// This endpoint could be implemented in another standalone service.
         /// </summary>
         [HttpGet("another-service/{featureId}")]
-        public IActionResult GetFromAnotherService(string featureId)
+        public IActionResult IsFeatureEnabled(string featureId)
         {
             if (featureId == FEATURE_ID)
                 return Ok(true);
 
             return BadRequest();
+        }
+
+        /// <summary>
+        /// This endpoint could be implemented in another standalone service.
+        /// </summary>
+        [HttpGet("another-service/features")]
+        public IActionResult GetFeatures()
+        {
+            return Ok(new[] { FEATURE_ID });
         }
     }
 }

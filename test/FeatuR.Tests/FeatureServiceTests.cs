@@ -1,6 +1,8 @@
+using FeatuR.Tests.Helpers;
 using Moq;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Xunit;
 
 namespace FeatuR.Tests
@@ -105,6 +107,29 @@ namespace FeatuR.Tests
             });
             var act = _sut.IsFeatureEnabled(featureId);
             Assert.True(act);
+        }
+
+        [Fact]
+        public void GetEnabledFeatures_DefaultStrategyHandler_ReturnsTrue()
+        {
+            var featureId = string.Empty;
+            var enabledFeatures = 4;
+            var disabledFeatures = 3;
+            for (var i = 0; i < enabledFeatures; i++)
+            {
+                featureId = Guid.NewGuid().ToString();
+                InMemoryFeatureStore.Features.TryAdd(featureId, FeatureExtensions.CreateFeatureWithDefaultStrategy(featureId, enabled: true));
+            }
+
+            for (var i = 0; i < disabledFeatures; i++)
+            {
+                featureId = Guid.NewGuid().ToString();
+                InMemoryFeatureStore.Features.TryAdd(featureId, FeatureExtensions.CreateFeatureWithDefaultStrategy(featureId, enabled: false));
+            }
+
+            var act = _sut.GetEnabledFeatures(context: null);
+
+            Assert.Equal(enabledFeatures, act.Count());
         }
     }
 }
