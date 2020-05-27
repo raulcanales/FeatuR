@@ -17,7 +17,7 @@ deploy:
     secure: zebWexWPWCJtuRguA56QCOyaDW15/XC52XwNxDX9Sx3+FXRfxq8lRg4ZENXj900E
   skip_symbols: true
   on:
-    branch: preview
+    branch: master
 - provider: NuGet
   name: production
   skip_symbols: true
