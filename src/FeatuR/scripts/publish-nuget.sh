@@ -11,6 +11,6 @@ echo "Pushing package to MyGet"
 
 case "$TRAVIS_BRANCH" in
   "master")
-    dotnet nuget push *.nupkg -k $MYGET_API_KEY -source https://www.myget.org/F/featur/api/v3/index.json
+    dotnet nuget push *.nupkg -k $MYGET_API_KEY -s https://www.myget.org/F/featur/api/v3/index.json
     ;;
 esac
