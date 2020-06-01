@@ -33,7 +33,7 @@ jobs:
         if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
         shell: bash
         run: |
-          dotnet tool update dotnet-sonarscanner
+          dotnet tool update dotnet-sonarscanner --global
       - name: Build
         shell: bash
         env:
