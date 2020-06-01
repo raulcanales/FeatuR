@@ -17,7 +17,7 @@ jobs:
       - name: Cache SonarCloud workspace
         uses: actions/cache@v1
         with:
-          path: ~/.sonar/cache
+          path: ./.sonar/cache
           key: ${{ runner.os }}-sonar-cache
           restore-keys: ${{ runner.os }}-sonar-scanner
 
@@ -25,7 +25,7 @@ jobs:
         id: cache-sonar-scanner
         uses: actions/cache@v1
         with:
-          path: ~/.sonar/scanner
+          path: ./.sonar/scanner
           key: ${{ runner.os }}-sonar-scanner
           restore-keys: ${{ runner.os }}-sonar-scanner
 
@@ -33,7 +33,7 @@ jobs:
         if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
         shell: bash
         run: |
-          dotnet tool update dotnet-sonarscanner --tool-path ~/.sonar/scanner
+          dotnet tool update dotnet-sonarscanner --tool-path ./.sonar/scanner
       - name: Build
         shell: bash
         env:
