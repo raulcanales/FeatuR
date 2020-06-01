@@ -1,0 +1,10 @@
+<Project>
+  <Import Project="build\Version.props" />
+  <PropertyGroup>
+    <Authors>Raúl A. Canales</Authors>
+    <LangVersion>latest</LangVersion>
+    <NoWarn>$(NoWarn);1701;1702;1591</NoWarn>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+  </PropertyGroup>
+</Project>
