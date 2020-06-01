@@ -32,10 +32,9 @@ jobs:
       - name: Install SonarCloud scanner
         if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
         shell: powershell
-        # The --version argument is optional. If it is omitted the latest version will be installed.
         run: |
           New-Item -Path "$HOME\.sonar\scanner" -ItemType Directory
-          dotnet tool update dotnet-sonarscanner --tool-path ~\.sonar\scanner --version 4.8.0
+          dotnet tool update dotnet-sonarscanner --tool-path ~\.sonar\scanner
       - name: Build
         shell: powershell
         env:
@@ -44,28 +43,30 @@ jobs:
           # SonarCloud access token should be generated from https://sonarcloud.io/account/security/
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          ~\.sonar\scanner\dotnet-sonarscanner begin /k:"simonbrandhof_sonarcloud-github-action-sample" /o:"simonbrandhof-github" /d:sonar.host.url="https://sonarcloud.io"
+          ~\.sonar\scanner\dotnet-sonarscanner begin /k:"raulcanales_FeatuR" /o:"raulcanales" /d:sonar.host.url="https://sonarcloud.io"
           dotnet build FeatuR.sln
           ~\.sonar\scanner\dotnet-sonarscanner end
   build:
+    name: Build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v2        
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '3.1.x'
       - name: Build with dotnet
-        run: dotnet build --configuration Release
+        run: dotnet build --configuration Release        
       - name: Test with dotnet
         run: dotnet test
   deploy:
+    name: Deploy to MyGet
     needs: build
     runs-on: ubuntu-latest
     steps:        
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v2        
       - name: Pack NuGet package
-        run: dotnet pack --configuration Release --version-suffix preview-${{ env.GITHUB_RUN_NUMBER }}
+        run: dotnet pack --configuration Release --version-suffix preview-${GITHUB_RUN_NUMBER}
       - name: Push package to MyGet
         run: dotnet nuget push **/*.nupkg 
               --api-key ${{ secrets.MYGET_DEPLOY_KEY }}
