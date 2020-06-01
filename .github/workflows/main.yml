@@ -40,5 +40,5 @@ jobs:
         run: dotnet pack --configuration Release
       - name: Push package to MyGet
         run: dotnet nuget push **/*.nupkg 
-              --api-key ~{{ secrets.MYGET_DEPLOY_KEY }}
+              --api-key ${{ secrets.MYGET_DEPLOY_KEY }}
               --source https://www.myget.org/F/featur/api/v3/index.json
