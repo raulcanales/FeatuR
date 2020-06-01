@@ -7,16 +7,12 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        dotnet: [ '2.2.103', '3.0', '3.1.x' ]
-    name: Dotnet ${{ matrix.dotnet }} sample
     steps:
       - uses: actions/checkout@v2
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: ${{ matrix.dotnet }}
+          dotnet-version: '3.1.x'
       - name: Build with dotnet
         run: dotnet build --configuration Release
       - name: Test with dotnet
