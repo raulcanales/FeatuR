@@ -5,7 +5,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.4" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\FeatuR\FeatuR.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\assets\logo\on_128.png" Pack="true" PackagePath="" />
   </ItemGroup>
 
 </Project>

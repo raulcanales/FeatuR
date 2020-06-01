@@ -1,12 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace FeatuR
 {
     /// <summary>
     /// Implements the source from which the service will resolve the features.
     /// </summary>
-    public interface IFeatureStore
+    public partial interface IFeatureStore
     {
         /// <summary>
         /// Gets a <see cref="Feature"/> by it's Id
