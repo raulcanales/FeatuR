@@ -9,7 +9,6 @@
     <PackageId>FeatuR</PackageId>
     <PackageTags>featur;feature;toggle;experimental;branch</PackageTags>
     <Authors>Raul A. Canales</Authors>
-    <PackageLicenseUrl>https://github.com/raulcanales/FeatuR/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/raulcanales/FeatuR</PackageProjectUrl>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>git://github.com/raulcanales/FeatuR</RepositoryUrl>        
