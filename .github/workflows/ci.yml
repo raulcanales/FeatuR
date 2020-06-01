@@ -42,7 +42,7 @@ jobs:
           # SonarCloud access token should be generated from https://sonarcloud.io/account/security/
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          dotnet sonarscanner begin -k:"raulcanales_FeatuR" -o:"raulcanales"
+          dotnet sonarscanner begin -k:"raulcanales_FeatuR" -o:"raulcanales" -d:sonar.host.url=https://sonarcloud.io
           dotnet build FeatuR.sln
           dotnet sonarscanner end
   build:
