@@ -36,7 +36,7 @@ jobs:
           New-Item -Path "$HOME\.sonar\scanner" -ItemType Directory
           dotnet tool update dotnet-sonarscanner --tool-path ~\.sonar\scanner
       - name: Build
-        shell: powershell
+        shell: bash
         env:
           # Needed to get some information about the pull request, if any
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
