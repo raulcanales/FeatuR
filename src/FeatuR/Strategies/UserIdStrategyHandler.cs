@@ -36,17 +36,11 @@ namespace FeatuR.Strategies
             if (string.IsNullOrWhiteSpace(userId))
                 return false;
 
-            if (parameters.TryGetValue(AllowedUserIdsParameterName, out var allowedUserIds))
-            {
-                if (!allowedUserIds.Contains($"{Separator}{userId}{Separator}"))
-                    return false;
-            }
+            if (parameters.TryGetValue(AllowedUserIdsParameterName, out var allowedUserIds) && !allowedUserIds.Contains($"{Separator}{userId}{Separator}"))
+                return false;
 
-            if (parameters.TryGetValue(ExcludedUserIdsParameterName, out var excludedUserIds))
-            {
-                if (excludedUserIds.Contains($"{Separator}{userId}{Separator}"))
-                    return false;
-            }
+            if (parameters.TryGetValue(ExcludedUserIdsParameterName, out var excludedUserIds) && excludedUserIds.Contains($"{Separator}{userId}{Separator}"))
+                return false;
 
             return true;
         }

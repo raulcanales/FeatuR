@@ -23,16 +23,16 @@ namespace FeatuR.EntityFramework
         public async Task<IEnumerable<Feature>> GetEnabledFeaturesAsync(CancellationToken token = default)
             => await _context.Features.Where(f => f.Enabled).ToListAsync(token);
 
-        public Feature GetFeatureById(string id)
+        public Feature GetFeatureById(string featureId)
         {
-            if (string.IsNullOrWhiteSpace(id)) throw new ArgumentNullException(nameof(id));
-            return _context.Features.SingleOrDefault(f => f.Id == id);
+            if (string.IsNullOrWhiteSpace(featureId)) throw new ArgumentNullException(nameof(featureId));
+            return _context.Features.SingleOrDefault(f => f.Id == featureId);
         }
 
-        public async Task<Feature> GetFeatureByIdAsync(string id, CancellationToken token = default)
+        public async Task<Feature> GetFeatureByIdAsync(string featureId, CancellationToken token = default)
         {
-            if (string.IsNullOrWhiteSpace(id)) throw new ArgumentNullException(nameof(id));
-            return await _context.Features.SingleOrDefaultAsync(f => f.Id == id, token);
+            if (string.IsNullOrWhiteSpace(featureId)) throw new ArgumentNullException(nameof(featureId));
+            return await _context.Features.SingleOrDefaultAsync(f => f.Id == featureId, token);
         }
     }
 }

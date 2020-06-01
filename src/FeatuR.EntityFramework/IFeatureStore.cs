@@ -10,8 +10,8 @@ namespace FeatuR.EntityFramework
         /// <summary>
         /// Gets a <see cref="Feature"/> by it's Id
         /// </summary>
-        /// <param name="id">Id of the feature</param>
-        Task<Feature> GetFeatureByIdAsync(string id, CancellationToken token = default);
+        /// <param name="featureId">Id of the feature</param>
+        Task<Feature> GetFeatureByIdAsync(string featureId, CancellationToken token = default);
 
         /// <summary>
         /// Returns all the enabled features.

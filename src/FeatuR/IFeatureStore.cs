@@ -10,8 +10,8 @@ namespace FeatuR
         /// <summary>
         /// Gets a <see cref="Feature"/> by it's Id
         /// </summary>
-        /// <param name="id">Id of the feature</param>
-        Feature GetFeatureById(string id);
+        /// <param name="featureId">Id of the feature</param>
+        Feature GetFeatureById(string featureId);
 
         /// <summary>
         /// Returns all the enabled features.
