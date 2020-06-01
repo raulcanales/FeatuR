@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 
 namespace FeatuR.RestClient
 {
@@ -42,7 +43,6 @@ namespace FeatuR.RestClient
                     var content = await response.Content.ReadAsStringAsync();
                     return JsonConvert.DeserializeObject<TResponse>(content);
                 }
-
             }
             catch
             {
@@ -57,7 +57,8 @@ namespace FeatuR.RestClient
             try
             {
                 SetHeadersFromContext(context);
-                using (var response = await _httpClient.GetAsync(endpoint))
+                var json = JsonConvert.SerializeObject(request);
+                using (var response = await _httpClient.PostAsync(endpoint, new StringContent(json, Encoding.UTF8, "application/json")))
                 {
                     if (!response.IsSuccessStatusCode)
                         return default;
@@ -65,7 +66,6 @@ namespace FeatuR.RestClient
                     var content = await response.Content.ReadAsStringAsync();
                     return JsonConvert.DeserializeObject<TResponse>(content);
                 }
-
             }
             catch
             {

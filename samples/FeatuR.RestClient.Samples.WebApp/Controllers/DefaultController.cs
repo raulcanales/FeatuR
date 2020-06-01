@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace FeatuR.RestClient.Samples.WebApp.Controllers
 {
@@ -42,6 +43,22 @@ namespace FeatuR.RestClient.Samples.WebApp.Controllers
         public IActionResult GetFeatures()
         {
             return Ok(new[] { FEATURE_ID });
+        }
+
+        /// <summary>
+        /// This endpoint could be implemented in another standalone service.
+        /// </summary>
+        [HttpPost("another-service/evaluate")]
+        public IActionResult EvaluateFeatures(string[] featureIds)
+        {
+            var result = new Dictionary<string, bool>();
+            foreach (var id in featureIds)
+            {
+                if (!string.IsNullOrWhiteSpace(id))
+                    result.TryAdd(id.ToLower(), true);
+            }
+
+            return Ok(result);
         }
     }
 }

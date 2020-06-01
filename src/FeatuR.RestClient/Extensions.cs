@@ -1,14 +1,11 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json;
-using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace FeatuR.RestClient
 {
     public static class Extensions
     {
-        private const string SectionName = "FeatureServoce";
+        private const string SectionName = "FeatureService";
 
         /// <summary>
         /// Registers all the necessary services to make <see cref="IFeatureService"/> work as a rest client, pointing to another service specified in the <see cref="RestFeatureServiceSettings"/>.
