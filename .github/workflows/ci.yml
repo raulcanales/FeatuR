@@ -1,4 +1,4 @@
-name: NuGet Package Deploy
+name: CI
 
 on:
   push:
@@ -14,8 +14,6 @@ jobs:
         fetch-depth: 0
     - name: SonarCloud Scan
       uses: sonarsource/sonarcloud-github-action@master
-      with:
-        projectBaseDir: src
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -34,11 +32,12 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
-    steps:
+    steps:        
       - uses: actions/checkout@v2
       - name: Pack NuGet package
-        run: dotnet pack --configuration Release
+        run: dotnet pack --configuration Release --version-suffix preview-${{ env.GITHUB_RUN_NUMBER }}
       - name: Push package to MyGet
         run: dotnet nuget push **/*.nupkg 
               --api-key ${{ secrets.MYGET_DEPLOY_KEY }}
               --source https://www.myget.org/F/featur/api/v3/index.json
+              --skip-duplicate
