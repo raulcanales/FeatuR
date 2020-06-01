@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29424.173
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FeatuR", "src\FeatuR\FeatuR.csproj", "{A6A6DE30-B74E-400F-B9E9-9F886A1F71E0}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{33EB9376-C011-4731-8491-EF6025C49902}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{33EB9376-C011-4731-8491-EF6025C49902}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FeatuR.Tests", "test\FeatuR.Tests\FeatuR.Tests.csproj", "{B00BAF93-D8AA-4764-9E18-FDD795CEDD7D}"
 EndProject
@@ -27,7 +27,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FeatuR.EntityFramework", "s
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FeatuR.EntityFramework.SqlServer.DependencyInjection", "src\FeatuR.EntityFramework.SqlServer.DependencyInjection\FeatuR.EntityFramework.SqlServer.DependencyInjection.csproj", "{C0E960DB-943D-4705-B829-4A15750521CC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FeatuR.EntityFramework.Tests", "tests\FeatuR.EntityFramework.Tests\FeatuR.EntityFramework.Tests.csproj", "{E57059B3-6022-40F6-9AD5-85015F0FA149}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FeatuR.EntityFramework.Tests", "test\FeatuR.EntityFramework.Tests\FeatuR.EntityFramework.Tests.csproj", "{E57059B3-6022-40F6-9AD5-85015F0FA149}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FeatuR.EntityFramework.MySQL", "src\FeatuR.EntityFramework.MySQL\FeatuR.EntityFramework.MySQL.csproj", "{81103134-A227-49BC-BECC-765FD4A8499D}"
 EndProject
