@@ -35,10 +35,9 @@ jobs:
     steps:        
       - uses: actions/checkout@v2
       - name: Pack NuGet package
-        run: dotnet pack --configuration Release
+        run: dotnet pack --configuration Release --version-suffix preview-${{ env.GITHUB_RUN_NUMBER }}
       - name: Push package to MyGet
         run: dotnet nuget push **/*.nupkg 
               --api-key ${{ secrets.MYGET_DEPLOY_KEY }}
               --source https://www.myget.org/F/featur/api/v3/index.json
-              --skip-duplicate 
-              --version-suffix preview-${{ env.GITHUB_RUN_NUMBER }}
+              --skip-duplicate
