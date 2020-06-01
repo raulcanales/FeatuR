@@ -30,4 +30,17 @@ jobs:
       - name: Build with dotnet
         run: dotnet build --configuration Release
       - name: Test with dotnet
-        run: dotnet test  
+        run: dotnet test
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:        
+      - uses: actions/checkout@v2
+      - name: Pack NuGet package
+        run: dotnet pack --configuration Release
+      - name: Push package to MyGet
+        run: dotnet nuget push **/*.nupkg 
+              --api-key ${{ secrets.MYGET_DEPLOY_KEY }}
+              --source https://www.myget.org/F/featur/api/v3/index.json
+              --skipduplicate 
+              --version-suffix preview-${{ GITHUB_RUN_NUMBER }}
