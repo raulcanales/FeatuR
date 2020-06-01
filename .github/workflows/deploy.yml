@@ -1,0 +1,25 @@
+name: NuGet Package Deploy
+on:
+  push:
+    tags:
+    - '*'
+jobs:
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install dotnet tool
+        run: dotnet tool install -g dotnetCampus.TagToVersion
+        
+      - name: Set tag to version  
+        run: dotnet TagToVersion -t ${{ github.ref }}
+        
+      - uses: actions/checkout@v2
+      - name: Pack NuGet package
+        run: dotnet pack --configuration Release
+      - name: Push package to MyGet
+        run: dotnet nuget push **/*.nupkg 
+              --api-key ${{ secrets.MYGET_DEPLOY_KEY }}
+              --source https://www.myget.org/F/featur/api/v3/index.json
+              --skipduplicate 
+              --version-suffix preview-${{ GITHUB_RUN_NUMBER }}
