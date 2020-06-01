@@ -1,22 +1,34 @@
-name: CI
+name: NuGet Package Deploy
 
-on: [push]
-
+on:
+  push:
+    branches:
+      - master
 jobs:
   build:
-
-    runs-on: [windows-latest]
-
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dotnet: [ '2.2.103', '3.0', '3.1.x' ]
+    name: Dotnet ${{ matrix.dotnet }} sample
     steps:
-    - uses: actions/checkout@v2
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 3.1.300
-    - name: build
-      run: ./Build.ps1
-    - name: Upload artifact
-      uses: actions/upload-artifact@v1.0.0
-      with: 
-        name: NuGet
-        path: artifacts\*.nupkg
+      - uses: actions/checkout@v2
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: ${{ matrix.dotnet }}
+      - name: Build with dotnet
+        run: dotnet build --coonfiguration Release
+      - name: Test with dotnet
+        run: dotnet test
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Pack NuGet package
+        run: dotnet pack --configuration Release
+      - name: Push package to MyGet
+        run: dotnet nuget push **/*.nupkg 
+              --api-key ~{{ secrets.MYGET_DEPLOY_KEY }}
+              --source https://www.myget.org/F/featur/api/v3/index.json
