@@ -5,19 +5,23 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace FeatuR.EntityFramework.SqlServer
+
+namespace FeatuR.EntityFramework
 {
-    public class SqlServerFeatureStore : IFeatureStore
+    public class EntityFrameworkFeatureStore : IFeatureStore
     {
         private readonly FeatuRDbContext _context;
 
-        public SqlServerFeatureStore(FeatuRDbContext context)
+        public EntityFrameworkFeatureStore(FeatuRDbContext context)
         {
             _context = context;
         }
 
         public IEnumerable<Feature> GetEnabledFeatures()
             => _context.Features.Where(f => f.Enabled);
+
+        public async Task<IEnumerable<Feature>> GetEnabledFeaturesAsync(CancellationToken token = default)
+            => await _context.Features.Where(f => f.Enabled).ToListAsync(token);
 
         public Feature GetFeatureById(string id)
         {

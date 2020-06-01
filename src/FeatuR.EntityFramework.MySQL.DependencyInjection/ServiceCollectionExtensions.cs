@@ -22,7 +22,7 @@ namespace FeatuR.EntityFramework.MySQL.DependencyInjection
             });
 
             services.AddScoped<IFeatureContext, FeatureContext>()
-                    .AddScoped<IFeatureStore, MySQLFeatureStore>()
+                    .AddScoped<IFeatureStore, EntityFrameworkFeatureStore>()
                     .AddScoped<IFeatureService, FeatureService>();
 
             return services;

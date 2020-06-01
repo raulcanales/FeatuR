@@ -22,7 +22,7 @@ namespace FeatuR.EntityFramework.SqlServer.DependencyInjection
             });
 
             services.AddScoped<IFeatureContext, FeatureContext>()
-                    .AddScoped<IFeatureStore, SqlServerFeatureStore>()
+                    .AddScoped<IFeatureStore, EntityFrameworkFeatureStore>()
                     .AddScoped<IFeatureService, FeatureService>();
 
             return services;
