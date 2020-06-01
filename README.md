@@ -7,7 +7,7 @@ The future plans, will include a standalone API service with a small database, t
 
 |                   |  |
 |-------------------|--------|
-| &nbsp;&nbsp;**Build**            |    [![Build status](https://ci.appveyor.com/api/projects/status/4sfkx9q8ljjmj5uo/branch/master?svg=true)](https://ci.appveyor.com/project/raulcanales/featur/branch/master)   |
+| &nbsp;&nbsp;**Build**            |    ![CI](https://github.com/raulcanales/FeatuR/workflows/CI/badge.svg)   |
 | &nbsp;&nbsp;**Quality** |    [![Sonar Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=raulcanales_FeatuR&metric=alert_status)](https://sonarcloud.io/project/issues?id=raulcanales_FeatuR) [![Codefactor](https://www.codefactor.io/repository/github/raulcanales/FeatuR/badge)](https://www.codefactor.io/repository/github/raulcanales/FeatuR/badge)   |
 | &nbsp;&nbsp;**Sonar Bugs** | [![Sonar Bugs](https://sonarcloud.io/api/project_badges/measure?project=raulcanales_FeatuR&metric=bugs)](https://sonarcloud.io/project/issues?id=raulcanales_FeatuR&resolved=false&types=BUG) [![Sonar Code Smells](https://sonarcloud.io/api/project_badges/measure?project=raulcanales_FeatuR&metric=code_smells)](https://sonarcloud.io/project/issues?id=raulcanales_FeatuR&resolved=false&types=CODE_SMELL) |
 
