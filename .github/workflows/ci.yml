@@ -43,4 +43,4 @@ jobs:
               --api-key ${{ secrets.MYGET_DEPLOY_KEY }}
               --source https://www.myget.org/F/featur/api/v3/index.json
               --skipduplicate 
-              --version-suffix preview-${{ GITHUB_RUN_NUMBER }}
+              --version-suffix preview-${{ env.GITHUB_RUN_NUMBER }}
