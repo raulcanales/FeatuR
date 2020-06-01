@@ -31,10 +31,9 @@ jobs:
 
       - name: Install SonarCloud scanner
         if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
-        shell: powershell
+        shell: bash
         run: |
-          New-Item -Path "$HOME\.sonar\scanner" -ItemType Directory
-          dotnet tool update dotnet-sonarscanner --tool-path ~\.sonar\scanner
+          dotnet tool update dotnet-sonarscanner
       - name: Build
         shell: bash
         env:
@@ -43,9 +42,9 @@ jobs:
           # SonarCloud access token should be generated from https://sonarcloud.io/account/security/
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          ~/.sonar/scanner/dotnet-sonarscanner begin /key:"raulcanales_FeatuR" /name:"FeatuR"
+          dotnet sonarscanner begin /key:"raulcanales_FeatuR" /name:"FeatuR"
           dotnet build FeatuR.sln
-          ~/.sonar/scanner/dotnet-sonarscanner end
+          dotnet sonarscanner end
   build:
     name: Build
     runs-on: ubuntu-latest
