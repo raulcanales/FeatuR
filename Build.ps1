@@ -56,4 +56,14 @@ try {
 
 Pop-Location
 
+Push-Location -Path .\test\FeatuR.EntityFramework.Tests
+
+try {
+    exec { & dotnet test -c Release --no-build --no-restore }
+} finally {
+    Pop-Location
+}
+
+Pop-Location
+
 exec { & dotnet pack .\src\FeatuR\FeatuR.csproj -c Release -o .\artifacts --include-symbols --no-build /p:Version=$($version)-preview-$($revision) }
