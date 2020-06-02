@@ -21,7 +21,7 @@ jobs:
           beginArguments: >
               /d:sonar.verbose="false"
               /d:sonar.exclusions="**/bin/**/*,**/obj/**/*"
-              /d:sonar.cs.opencover.reportsPaths="*/coverage.opencover.xml"
+              /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml"
               /d:sonar.coverage.exclusions='"**/*.cs","**/*.md"'
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
