@@ -68,7 +68,7 @@ jobs:
       - name: Pack NuGet package
         env:
           version: ${GITHUB_RUN_NUMBER}
-        run: dotnet pack --configuration Release --version-suffix preview-${{ env.version }}
+        run: dotnet pack --configuration Release --version-suffix "preview-${{ env.version }}"
       - name: Push package to MyGet
         run: dotnet nuget push **/*.nupkg
               --api-key ${{ secrets.MYGET_DEPLOY_KEY }}
