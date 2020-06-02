@@ -16,7 +16,7 @@ namespace FeatuR.RestClient
         /// <summary>
         /// Registers all the necessary services to make <see cref="IFeatureService"/> work as a rest client, pointing to another service specified in the <see cref="RestFeatureServiceSettings"/>.
         /// </summary>
-        public static IServiceCollection AddFeatuR(this IServiceCollection services, string configSection = SectionName)
+        public static IServiceCollection AddFeatuR(this IServiceCollection services, string configSection)
         {
             IConfiguration configuration;
 
