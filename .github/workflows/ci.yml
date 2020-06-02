@@ -46,9 +46,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Pack NuGet package
-        env:
-          version: ${{ env.GITHUB_RUN_NUMBER }}
-        run: dotnet pack --configuration Release --version-suffix "preview-${{ env.version }}"
+        run: dotnet pack --configuration Release --version-suffix "ci"
       - name: Push package to MyGet
         run: dotnet nuget push **/*.nupkg
               --api-key ${{ secrets.MYGET_DEPLOY_KEY }}
