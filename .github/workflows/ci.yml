@@ -49,27 +49,27 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2        
+      - uses: actions/checkout@v2
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '3.1.x'
       - name: Build with dotnet
-        run: dotnet build --configuration Release        
+        run: dotnet build --configuration Release
       - name: Test with dotnet
         run: dotnet test
   deploy:
     name: Deploy to MyGet
     needs: build
     runs-on: ubuntu-latest
-    steps:        
-      - uses: actions/checkout@v2        
+    steps:
+      - uses: actions/checkout@v2
       - name: Pack NuGet package
         env:
           version: ${GITHUB_RUN_NUMBER}
         run: dotnet pack --configuration Release --version-suffix preview-${{ env.version }}
       - name: Push package to MyGet
-        run: dotnet nuget push **/*.nupkg 
+        run: dotnet nuget push **/*.nupkg
               --api-key ${{ secrets.MYGET_DEPLOY_KEY }}
               --source https://www.myget.org/F/featur/api/v3/index.json
               --no-symbols
