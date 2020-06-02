@@ -7,7 +7,7 @@ on:
 jobs:
   sonarcloud:
     name: SonarCloud
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Sonarscanner for dotnet
         uses: Secbyte/dotnet-sonarscanner@v2.2
