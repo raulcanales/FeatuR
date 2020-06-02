@@ -3,14 +3,20 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace FeatuR.RestClient
 {
-    public static class Extensions
+    public static class ServiceCollectionExtensions
     {
-        private const string SectionName = "FeatureService";
+        private const string SectionName = "FeatuR";
 
         /// <summary>
         /// Registers all the necessary services to make <see cref="IFeatureService"/> work as a rest client, pointing to another service specified in the <see cref="RestFeatureServiceSettings"/>.
         /// </summary>
-        public static IServiceCollection AddRestFeatureService(this IServiceCollection services, string configSection = SectionName)
+        public static IServiceCollection AddRestFeatureService(this IServiceCollection services)
+            => AddFeatuR(services, SectionName);
+
+        /// <summary>
+        /// Registers all the necessary services to make <see cref="IFeatureService"/> work as a rest client, pointing to another service specified in the <see cref="RestFeatureServiceSettings"/>.
+        /// </summary>
+        public static IServiceCollection AddFeatuR(this IServiceCollection services, string configSection = SectionName)
         {
             IConfiguration configuration;
 

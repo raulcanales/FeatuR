@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 
@@ -83,7 +84,7 @@ namespace FeatuR
         /// </summary>
         protected virtual IStrategyHandler GetStrategyHandler(string activationStrategy)
         {
-            var strategyName = activationStrategy.ToLower();
+            var strategyName = activationStrategy.ToLower(CultureInfo.InvariantCulture);
             if (_strategyHandlers.ContainsKey(strategyName))
                 return _strategyHandlers[activationStrategy] as IStrategyHandler;
             else
@@ -103,7 +104,7 @@ namespace FeatuR
             var assembly = Assembly.GetExecutingAssembly();
             foreach (TypeInfo typeInfo in assembly.DefinedTypes)
             {
-                if (typeInfo.ImplementedInterfaces.Contains(typeof(IStrategyHandler)) && typeInfo.Name.ToLower().Equals($"{strategyName}strategyhandler"))
+                if (typeInfo.ImplementedInterfaces.Contains(typeof(IStrategyHandler)) && typeInfo.Name.ToLower(CultureInfo.InvariantCulture).Equals($"{strategyName}strategyhandler"))
                     return typeInfo.AsType();
             }
             return null;

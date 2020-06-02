@@ -7,9 +7,11 @@ namespace FeatuR.Strategies
     /// </summary>
     public class DefaultStrategyHandler : IStrategyHandler
     {
-        /// <summary>
-        /// Default strategy. Always returns true.
-        /// </summary>
-        public bool IsEnabled(Dictionary<string, string> parameters, IFeatureContext context = null) => true;
+        /// <inheritdoc />
+        public bool IsEnabled(Dictionary<string, string> parameters)
+            => IsEnabled(parameters, null);
+        /// <inheritdoc />
+        public bool IsEnabled(Dictionary<string, string> parameters, IFeatureContext context)
+            => true;
     }
 }

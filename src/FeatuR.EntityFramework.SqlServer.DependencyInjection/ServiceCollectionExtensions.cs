@@ -6,6 +6,8 @@ namespace FeatuR.EntityFramework.SqlServer.DependencyInjection
 {
     public static class ServiceCollectionExtensions
     {
+        public static IServiceCollection AddBlogR(this IServiceCollection services)
+            => AddBlogR(services, "FeatuR");
         public static IServiceCollection AddBlogR(this IServiceCollection services, string sectionName = "FeatuR")
         {
             IConfiguration configuration;

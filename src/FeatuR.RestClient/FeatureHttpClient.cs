@@ -22,13 +22,13 @@ namespace FeatuR.RestClient
         }
 
         internal async Task<IDictionary<string, bool>> EvaluateFeaturesAsync(IEnumerable<string> featureIds, IFeatureContext context)
-            => await Post<IDictionary<string, bool>>(featureIds, _settings.EvaluateFeaturesEndpoint, context);
+            => await Post<IDictionary<string, bool>>(featureIds, _settings.EvaluateFeaturesEndpoint, context).ConfigureAwait(false);
 
         internal async Task<IEnumerable<string>> GetEnabledFeaturesAsync(IFeatureContext context)
-            => await Get<IEnumerable<string>>(_settings.GetAllEnabledFeaturesEndpoint, context);
+            => await Get<IEnumerable<string>>(_settings.GetAllEnabledFeaturesEndpoint, context).ConfigureAwait(false);
 
         internal async Task<bool> IsFeatureEnabledAsync(string featureId, IFeatureContext context)
-            => await Get<bool>(_settings.IsFeatureEnabledEndpoint.Replace("{featureId}", featureId), context);
+            => await Get<bool>(_settings.IsFeatureEnabledEndpoint.Replace("{featureId}", featureId), context).ConfigureAwait(false);
 
         private async Task<TResponse> Get<TResponse>(string endpoint, IFeatureContext context)
         {
