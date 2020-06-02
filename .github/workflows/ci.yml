@@ -15,7 +15,7 @@ jobs:
         uses: codacy/codacy-coverage-reporter-action@master
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-          coverage-reports: coverage.opencover.xml
+          coverage-reports: test/**/coverage.opencover.xml
   sonarcloud:
     name: SonarCloud
     runs-on: ubuntu-latest
