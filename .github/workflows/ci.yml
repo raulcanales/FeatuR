@@ -14,12 +14,16 @@ jobs:
         uses: Secbyte/dotnet-sonarscanner@v2.2
         with:
           buildCommand: dotnet build ./src/FeatuR/FeatuR.csproj
-          testCommand: dotnet test ./test/FeatuR.Tests/FeatuR.Tests.csproj -p:CollectCoverage=true -p:CoverletOutputFormat=opencover
+          testCommand: dotnet test ./test/FeatuR.Tests/FeatuR.Tests.csproj -p:CollectCoverage=true -p:CoverletOutputFormat=opencover /p:CoverletOutput=../lcov
           projectKey: raulcanales_FeatuR
           projectName: FeatuR
           sonarOrganisation: raulcanales
           beginArguments: >
-              /d:sonar.verbose="true"              
+              /d:sonar.verbose="false"
+              /d:sonar.host.url="https://sonarcloud.io"
+              /d:sonar.language="cs"
+              /d:sonar.exclusions="**/bin/**/*,**/obj/**/*"
+              /d:sonar.cs.opencover.reportsPaths="lcov.opencover.xml"
               /d:sonar.coverage.exclusions='"**/*.cs","**/*.md"'
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
