@@ -13,8 +13,8 @@ jobs:
       - name: Sonarscanner for dotnet
         uses: Secbyte/dotnet-sonarscanner@v2.2
         with:
-          buildCommand: dotnet build ./FeatuR.sln
-          testCommand: dotnet test ./FeatuR.sln -p:CollectCoverage=true -p:CoverletOutputFormat=opencover
+          buildCommand: dotnet build ./FeatuR.sln -c Release
+          testCommand: dotnet test ./FeatuR.sln --no-build -c Release -p:CollectCoverage=true -p:CoverletOutputFormat=opencover
           projectKey: raulcanales_FeatuR
           projectName: FeatuR
           sonarOrganisation: raulcanales
