@@ -42,7 +42,7 @@ jobs:
           # SonarCloud access token should be generated from https://sonarcloud.io/account/security/
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |          
-          dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+          dotnet test FeatuR.sln /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
           ./.sonar/scanner/dotnet-sonarscanner begin -k:"raulcanales_FeatuR" -o:"raulcanales" -d:sonar.host.url=https://sonarcloud.io -d:sonar.coverage.exclusions="**Tests*.cs"
           dotnet build FeatuR.sln
           ./.sonar/scanner/dotnet-sonarscanner end
