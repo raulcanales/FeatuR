@@ -12,8 +12,8 @@ jobs:
       - name: Sonarscanner for dotnet
         uses: Secbyte/dotnet-sonarscanner@v2.2
         with:
-          buildCommand: dotnet build .
-          testCommand: dotnet test .
+          buildCommand: dotnet build ./FeatuR.sln
+          testCommand: dotnet test ./FeatuR.sln
           projectKey: raulcanales_FeatuR
           projectName: FeatuR
           sonarOrganisation: raulcanales
