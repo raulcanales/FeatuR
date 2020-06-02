@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Sonarscanner for dotnet
-        uses: Secbyte/dotnet-sonarscanner@v2.2
+        uses: raulcanales/dotnet-sonarscanner@v2.2
         with:
           buildCommand: dotnet build ./FeatuR.sln -c Release
           testCommand: dotnet test ./FeatuR.sln --no-build -c Release -p:CollectCoverage=true -p:CoverletOutputFormat=opencover
