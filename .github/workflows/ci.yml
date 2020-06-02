@@ -5,6 +5,7 @@ on:
       - master
 jobs:
   codacy-coverage-reporter:
+    name: Codacy report
     runs-on: ubuntu-latest
     name: codacy-coverage-reporter
     steps:
@@ -16,6 +17,27 @@ jobs:
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
           coverage-reports: test/**/coverage.opencover.xml
+  sonarcloud:
+    name: SonarCloud report
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Sonarscanner for dotnet
+        uses: raulcanales/dotnet-sonarscanner@v2.2
+        with:
+          buildCommand: dotnet build ./FeatuR.sln -c Release
+          testCommand: dotnet test ./FeatuR.sln --no-build -c Release -p:CollectCoverage=true -p:CoverletOutputFormat=opencover
+          projectKey: raulcanales_FeatuR
+          projectName: FeatuR
+          sonarOrganisation: raulcanales
+          beginArguments: >
+              /d:sonar.verbose="false"
+              /d:sonar.exclusions="**/bin/**/*,**/obj/**/*"
+              /d:sonar.cs.opencover.reportsPaths="test/**/coverage.opencover.xml"
+              /d:sonar.coverage.exclusions='"**/*.cs","**/*.md"'
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   build:
     name: Build
     runs-on: ubuntu-latest
