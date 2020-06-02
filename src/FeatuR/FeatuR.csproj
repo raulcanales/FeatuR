@@ -14,6 +14,7 @@
     <RepositoryUrl>git://github.com/raulcanales/FeatuR</RepositoryUrl>        
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageIcon>on_128.png</PackageIcon>
+    <ProjectGuid>{84813FE4-7725-4A60-9083-BF1210389800}</ProjectGuid><!-- Generated with https://www.guidgenerator.com/online-guid-generator.aspx for SonarCloud -->
   </PropertyGroup>
 
   <ItemGroup>
