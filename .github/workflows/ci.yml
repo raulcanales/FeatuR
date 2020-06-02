@@ -43,8 +43,8 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |          
           ./.sonar/scanner/dotnet-sonarscanner begin -k:"raulcanales_FeatuR" -o:"raulcanales" -d:sonar.host.url=https://sonarcloud.io -d:sonar.coverage.exclusions="**Tests*.cs"
-          dotnet build src/FeatuR/FeatuR.csproj
-          dotnet test "./test/FeatuR.Tests/FeatuR.Tests.csproj" //p:CollectCoverage=true //p:CoverletOutputFormat=opencover
+          dotnet build ./FeatuR.sln
+          dotnet test ./FeatuR.sln //p:CollectCoverage=true //p:CoverletOutputFormat=opencover
           ./.sonar/scanner/dotnet-sonarscanner end 
   build:
     name: Build
