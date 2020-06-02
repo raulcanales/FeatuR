@@ -7,45 +7,22 @@ on:
 jobs:
   sonarcloud:
     name: SonarCloud
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Sonarscanner for dotnet
+        uses: Secbyte/dotnet-sonarscanner@v2.2
         with:
-          # Shallow clones should be disabled for a better relevancy of analysis
-          fetch-depth: 0
-
-      - name: Cache SonarCloud workspace
-        uses: actions/cache@v1
-        with:
-          path: ./.sonar/cache
-          key: ${{ runner.os }}-sonar-cache
-          restore-keys: ${{ runner.os }}-sonar-scanner
-
-      - name: Cache SonarCloud scanner
-        id: cache-sonar-scanner
-        uses: actions/cache@v1
-        with:
-          path: ./.sonar/scanner
-          key: ${{ runner.os }}-sonar-scanner
-          restore-keys: ${{ runner.os }}-sonar-scanner
-
-      - name: Install SonarCloud scanner
-        if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
-        shell: bash
-        run: |
-          dotnet tool update dotnet-sonarscanner --tool-path ./.sonar/scanner
-      - name: Build
-        shell: bash
+          buildCommand: dotnet build .
+          testCommand: dotnet test .
+          projectKey: raulcanales_FeatuR
+          projectName: FeatuR
+          sonarOrganisation: raulcanales
+          beginArguments: >
+              /d:sonar.verbose="true"              
+              /d:sonar.coverage.exclusions='"**/*.cs","**/*.md"'
         env:
-          # Needed to get some information about the pull request, if any
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # SonarCloud access token should be generated from https://sonarcloud.io/account/security/
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: |          
-          ./.sonar/scanner/dotnet-sonarscanner begin -k:"raulcanales_FeatuR" -o:"raulcanales" -d:sonar.host.url=https://sonarcloud.io -d:sonar.coverage.exclusions="**Tests*.cs"
-          dotnet build ./FeatuR.sln
-          dotnet test ./FeatuR.sln //p:CollectCoverage=true //p:CoverletOutputFormat=opencover
-          ./.sonar/scanner/dotnet-sonarscanner end 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   build:
     name: Build
     runs-on: ubuntu-latest
