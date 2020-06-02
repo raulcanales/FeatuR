@@ -1,4 +1,4 @@
-![Logo](https://github.com/raulcanales/FeatuR/assets/logo/on_64.png "Logo")
+![Logo](https://github.com/raulcanales/FeatuR/blob/master/assets/logo/on_64.png "Logo")
 # FeatuR
 A simple feature toggle system, to manage experimental features with customizable activation strategies.
 
