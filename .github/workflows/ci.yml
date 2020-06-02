@@ -9,11 +9,12 @@ jobs:
     name: SonarCloud
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - name: Sonarscanner for dotnet
         uses: Secbyte/dotnet-sonarscanner@v2.2
         with:
-          buildCommand: dotnet build src/FeatuR/FeatuR.csproj
-          testCommand: dotnet test test/FeatuR.Tests/FeatuR.Tests.csproj -p:CollectCoverage=true -p:CoverletOutputFormat=opencover
+          buildCommand: dotnet build ./src/FeatuR/FeatuR.csproj
+          testCommand: dotnet test ./test/FeatuR.Tests/FeatuR.Tests.csproj -p:CollectCoverage=true -p:CoverletOutputFormat=opencover
           projectKey: raulcanales_FeatuR
           projectName: FeatuR
           sonarOrganisation: raulcanales
