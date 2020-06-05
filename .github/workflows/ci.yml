@@ -5,7 +5,22 @@ on:
       - master
 jobs:
   build:
-    name: Build
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+            MYSQL_ROOT_PASSWORD: "test123456"
+        ports:
+            - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+      mssql:
+        image: mssql:latest
+        env:
+            ACCEPT_EULA: Y
+            SA_PASSWORD: "Pass@word"
+        ports:
+            - 1433:1433   
+    name: Build & test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -15,91 +30,29 @@ jobs:
           dotnet-version: '3.1.x'
       - name: Build with dotnet
         run: dotnet build --configuration Release
-      - name: Upload artifact
-        uses: actions/upload-artifact@v1.0.0
-        with:
-          name: FeatuR
-
-  unittests:
-    name: Run unit tests
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download artifact
-        uses: actions/download-artifact@v1.0.0
-        with:
-          name: FeatuR
       - name: Run tests (FeatuR)
         run: dotnet test ./test/FeatuR.Tests/FeatuR.Tests.csproj --no-build -c Release -p:CollectCoverage=true -p:CoverletOutputFormat=opencover
       - name: Run tests (FeatuR.RestClient)
         run: dotnet test ./test/FeatuR.RestClient.Tests/FeatuR.RestClient.Tests.csproj --no-build -c Release -p:CollectCoverage=true -p:CoverletOutputFormat=opencover
       - name: Run tests (FeatuR.EntityFramework)
         run: dotnet test ./test/FeatuR.EntityFramework.Tests/FeatuR.EntityFramework.Tests.csproj --no-build -c Release -p:CollectCoverage=true -p:CoverletOutputFormat=opencover
-
-  mysqltests:
-    name: Integration tests (MySQL)
-    needs: build
-    runs-on: ubuntu-latest
-    services:
-      mysql:
-        image: mysql:5.7
-        env:
-            MYSQL_ROOT_PASSWORD: "test123456"
-        ports:
-            - 3306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
-    steps:
-      - name: Download artifact
-        uses: actions/download-artifact@v1.0.0
-        with:
-          name: FeatuR
       - name: Test with dotnet
         env:
           ConnectionStringMySQL: "Server=localhost; Port=${{ job.services.mysql.ports[3306] }}; User=root; Password=test123456; Database=featur;"
         run: dotnet test ./FeatuR.EntityFramework.MySQL.IntegrationTests/FeatuR.EntityFramework.MySQL.IntegrationTests.csproj --no-build -c Release -p:CollectCoverage=true -p:CoverletOutputFormat=opencover
-        working-directory: ./
-
-  mssqltests:
-    name: Integration tests (MSSQL)
-    needs: build
-    runs-on: ubuntu-latest
-    services:
-      mssql:
-        image: mssql:latest
-        env:
-            ACCEPT_EULA: Y
-            SA_PASSWORD: "Pass@word"
-        ports:
-            - 1433:1433        
-    steps:
-      - name: Download artifact
-        uses: actions/download-artifact@v1.0.0
-        with:
-          name: FeatuR
       - name: Test with dotnet
         env:
           ConnectionStringMySQL: "Server=localhost,${{ job.services.mssql.ports[1433] }}; Uid=sa; Password=Pass@word; Database=featur;"
         run: dotnet test ./test/FeatuR.EntityFramework.SqlServer.IntegrationTests/FeatuR.EntityFramework.SqlServer.IntegrationTests.csproj --no-build -c Release -p:CollectCoverage=true -p:CoverletOutputFormat=opencover
-        working-directory: ./FeatuR
-
-  codacy:
-    name: Upload test results to Codacy
-    needs: [unittests, mssqltests, mysqltests]
-    runs-on: ubuntu-latest      
-    steps:
-      - name: Download artifact
-        uses: actions/download-artifact@v1.0.0
-        with:
-          name: FeatuR
       - name: Upload test results to Codacy
         uses: codacy/codacy-coverage-reporter-action@master
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-          coverage-reports: ./**/coverage.opencover.xml
+          coverage-reports: test/**/coverage.opencover.xml
 
   deploy:
     name: Deploy to MyGet
-    needs: codacy
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Download artifact
