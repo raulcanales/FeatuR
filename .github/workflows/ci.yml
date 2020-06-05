@@ -51,7 +51,7 @@ jobs:
           coverage-reports: test/**/coverage.opencover.xml
       - name: Pack NuGet package
         env:
-          SUFFIX: ci-${GITHUB_RUN_NUMBER}
+          SUFFIX: ci-${{ github.run_number }}
         run: dotnet pack --configuration Release --no-build --version-suffix "${{ env.SUFFIX }}"
       - name: Push package to MyGet
         run: dotnet nuget push **/*.nupkg
