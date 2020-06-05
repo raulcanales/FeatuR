@@ -42,7 +42,7 @@ jobs:
         run: dotnet test ./test/FeatuR.EntityFramework.MySQL.IntegrationTests/FeatuR.EntityFramework.MySQL.IntegrationTests.csproj --no-build -c Release -p:CollectCoverage=true -p:CoverletOutputFormat=opencover
       - name: Run tests (MSSQL)
         env:
-          ConnectionStringMySQL: "Server=localhost,${{ job.services.mssql.ports[1433] }}; Uid=sa; Password=Pass@word; Database=featur;"
+          ConnectionStringSqlServer: "Server=localhost,${{ job.services.mssql.ports[1433] }}; Uid=sa; Password=Pass@word; Database=featur;"
         run: dotnet test ./test/FeatuR.EntityFramework.SqlServer.IntegrationTests/FeatuR.EntityFramework.SqlServer.IntegrationTests.csproj --no-build -c Release -p:CollectCoverage=true -p:CoverletOutputFormat=opencover
       - name: Upload test results to Codacy
         uses: codacy/codacy-coverage-reporter-action@master
