@@ -44,11 +44,9 @@ jobs:
       mysql:
         image: mysql:5.7
         env:
-            MYSQL_ALLOW_EMPTY_PASSWORD: yes
             MYSQL_ROOT_PASSWORD: "test123456"
-            MYSQL_DATABASE: featur
         ports:
-            - 3306
+            - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
     steps:
       - uses: actions/checkout@v2
@@ -60,7 +58,7 @@ jobs:
         run: dotnet build --configuration Release
       - name: Test with dotnet
         env:
-          ConnectionStringMySQL: "Server=localhost; User=root; Password=test123456; Database=featur;"
+          ConnectionStringMySQL: "Server=localhost; Port=${{ job.services.mysql.ports[3306] }}; User=root; Password=test123456; Database=featur;"
         run: dotnet test
   deploy:
     name: Deploy to MyGet
