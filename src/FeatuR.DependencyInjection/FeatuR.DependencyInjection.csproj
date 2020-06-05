@@ -27,4 +27,8 @@
     <ProjectReference Include="..\FeatuR\FeatuR.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="..\..\assets\logo\on_128.png" Pack="true" PackagePath="" />
+  </ItemGroup>
+
 </Project>
