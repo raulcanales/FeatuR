@@ -16,17 +16,20 @@ The future plans, will include a standalone API service with a small database, t
 |                   | Official | Preview |
 |-------------------|:--------:|:-------:|
 | &nbsp;&nbsp;**FeatuR**            |    [![NuGet Badge](https://buildstats.info/nuget/FeatuR)](https://www.nuget.org/packages/FeatuR)   |   [![MyGet Badge](https://buildstats.info/myget/featur/FeatuR)](https://www.myget.org/feed/featur/package/nuget/FeatuR)   |
-| &nbsp;&nbsp;**FeatuR.RestClient** |    Coming soon   |   [![MyGet Badge](https://buildstats.info/myget/featur/FeatuR.RestClient)](https://www.myget.org/feed/featur/package/nuget/FeatuR.RestClient)   |
-| &nbsp;&nbsp;**FeatuR.EntityFramework.MySQL**        |    Coming soon   |   [![MyGet Badge](https://buildstats.info/myget/featur/FeatuR.EntityFramework.MySQL)](https://www.myget.org/feed/featur/package/nuget/FeatuR.EntityFramework.MySQL)   |
-| &nbsp;&nbsp;**FeatuR.EntityFramework.MySQL.DependencyInjection**        |    Coming soon   |   [![MyGet Badge](https://buildstats.info/myget/featur/FeatuR.EntityFramework.MySQL.DependencyInjection)](https://www.myget.org/feed/featur/package/nuget/FeatuR.EntityFramework.MySQL.DependencyInjection)   |
-| &nbsp;&nbsp;**FeatuR.EntityFramework.SqlServer**        |    Coming soon   |   [![MyGet Badge](https://buildstats.info/myget/featur/FeatuR.EntityFramework.SqlServer)](https://www.myget.org/feed/featur/package/nuget/FeatuR.EntityFramework.SqlServer)   |
-| &nbsp;&nbsp;**FeatuR.EntityFramework.SqlServer.DependencyInjection**        |    Coming soon   |   [![MyGet Badge](https://buildstats.info/myget/featur/FeatuR.EntityFramework.SqlServer.DependencyInjection)](https://www.myget.org/feed/featur/package/nuget/FeatuR.EntityFramework.SqlServer.DependencyInjection)   |
+| &nbsp;&nbsp;**FeatuR.DependencyInjection**            |    [![NuGet Badge](https://buildstats.info/nuget/FeatuR.DependencyInjection)](https://www.nuget.org/packages/FeatuR)   |   [![MyGet Badge](https://buildstats.info/myget/featur/FeatuR.DependencyInjection)](https://www.myget.org/feed/featur/package/nuget/FeatuR.DependencyInjection)   |
+| &nbsp;&nbsp;**FeatuR.RestClient** |    [![NuGet Badge](https://buildstats.info/nuget/FeatuR.RestClient)](https://www.nuget.org/packages/FeatuR.RestClient)   |   [![MyGet Badge](https://buildstats.info/myget/featur/FeatuR.RestClient)](https://www.myget.org/feed/featur/package/nuget/FeatuR.RestClient)   |
+| &nbsp;&nbsp;**FeatuR.EntityFramework**        |    [![NuGet Badge](https://buildstats.info/nuget/FeatuR.EntityFramework)](https://www.nuget.org/packages/FeatuR.EntityFramework)   |   [![MyGet Badge](https://buildstats.info/myget/featur/FeatuR.EntityFramework)](https://www.myget.org/feed/featur/package/nuget/FeatuR.EntityFramework)   |
+| &nbsp;&nbsp;**FeatuR.EntityFramework.MySQL**        |    [![NuGet Badge](https://buildstats.info/nuget/FeatuR.EntityFramework.MySQL)](https://www.nuget.org/packages/FeatuR.EntityFramework.MySQL)   |   [![MyGet Badge](https://buildstats.info/myget/featur/FeatuR.EntityFramework.MySQL)](https://www.myget.org/feed/featur/package/nuget/FeatuR.EntityFramework.MySQL)   |
+| &nbsp;&nbsp;**FeatuR.EntityFramework.MySQL.DependencyInjection**        |    [![NuGet Badge](https://buildstats.info/nuget/FeatuR.EntityFramework.MySQL.DependencyInjection)](https://www.nuget.org/packages/FeatuR.EntityFramework.MySQL.DependencyInjection)   |   [![MyGet Badge](https://buildstats.info/myget/featur/FeatuR.EntityFramework.MySQL.DependencyInjection)](https://www.myget.org/feed/featur/package/nuget/FeatuR.EntityFramework.MySQL.DependencyInjection)   |
+| &nbsp;&nbsp;**FeatuR.EntityFramework.SqlServer**        |    [![NuGet Badge](https://buildstats.info/nuget/FeatuR.EntityFramework.SqlServer)](https://www.nuget.org/packages/FeatuR.EntityFramework.SqlServer)   |   [![MyGet Badge](https://buildstats.info/myget/featur/FeatuR.EntityFramework.SqlServer)](https://www.myget.org/feed/featur/package/nuget/FeatuR.EntityFramework.SqlServer)   |
+| &nbsp;&nbsp;**FeatuR.EntityFramework.SqlServer.DependencyInjection**        |    [![NuGet Badge](https://buildstats.info/nuget/FeatuR.EntityFramework.SqlServer.DependencyInjection)](https://www.nuget.org/packages/FeatuR.EntityFramework.SqlServer.DependencyInjection)   |   [![MyGet Badge](https://buildstats.info/myget/featur/FeatuR.EntityFramework.SqlServer.DependencyInjection)](https://www.myget.org/feed/featur/package/nuget/FeatuR.EntityFramework.SqlServer.DependencyInjection)   |
 
 ### Roadmap
 
 - [x] Core FeatuR library
+- [x] Create and publish Rest client implementation for IFeatureService
+- [x] Create and publish MSSQL implementation for IFeatureStore
+- [x] Create and publish MySQL implementation for IFeatureStore
 - [ ] Write documentation
-- [ ] Create and publish Rest client implementation for IFeatureService
-- [ ] Create and publish SQL implementation for IFeatureStore
 - [ ] Add extra activation strategies
 - [ ] Add more samples
