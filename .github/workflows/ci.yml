@@ -50,7 +50,9 @@ jobs:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
           coverage-reports: test/**/coverage.opencover.xml
       - name: Pack NuGet package
-        run: dotnet pack --configuration Release --no-build --version-suffix "ci"
+        env:
+          SUFFIX: ci-${GITHUB_RUN_NUMBER}
+        run: dotnet pack --configuration Release --no-build --version-suffix "${{ env.SUFFIX }}"
       - name: Push package to MyGet
         run: dotnet nuget push **/*.nupkg
               --api-key ${{ secrets.MYGET_DEPLOY_KEY }}
