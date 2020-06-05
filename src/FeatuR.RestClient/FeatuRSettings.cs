@@ -5,9 +5,9 @@ namespace FeatuR.RestClient
 {
     public class FeatuRSettings
     {
-        public const string DefaultIsFeatureEnabledEndpoint = "feature/{featureId}";
-        public const string DefaultGetAllEnabledFeaturesEndpoint = "features";
-        public const string DefaultEvaluateFeaturesEndpoint = "features/evaluate";
+        public static readonly string DefaultIsFeatureEnabledEndpoint = "feature/{featureId}";
+        public static readonly string DefaultGetAllEnabledFeaturesEndpoint = "features";
+        public static readonly string DefaultEvaluateFeaturesEndpoint = "features/evaluate";
 
         public string BaseUrl { get; set; }
         public string IsFeatureEnabledEndpoint { get; set; } = DefaultIsFeatureEnabledEndpoint;
