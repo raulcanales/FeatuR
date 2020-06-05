@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@master
       - name: Run Tests
-        run: dotnet test ./FeatuR.sln -c Release -p:CollectCoverage=true -p:CoverletOutputFormat=opencover
+        run: dotnet test ./test/FeatuR.Tests/FeatuR.Tests.csproj -c Release -p:CollectCoverage=true -p:CoverletOutputFormat=opencover
       - name: Run codacy-coverage-reporter
         uses: codacy/codacy-coverage-reporter-action@master
         with:
@@ -40,6 +40,16 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+            MYSQL_ALLOW_EMPTY_PASSWORD: yes
+            MYSQL_ROOT_PASSWORD: "test123456"
+            MYSQL_DATABASE: featur
+        ports:
+            - 3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
     steps:
       - uses: actions/checkout@v2
       - name: Setup .NET Core
@@ -49,6 +59,8 @@ jobs:
       - name: Build with dotnet
         run: dotnet build --configuration Release
       - name: Test with dotnet
+        env:
+          ConnectionStringMYSQL: "Server=localhost; User=root; Password=test123456; Database=featur;"
         run: dotnet test
   deploy:
     name: Deploy to MyGet
