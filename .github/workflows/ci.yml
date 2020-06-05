@@ -20,7 +20,7 @@ jobs:
             SA_PASSWORD: "Pass@word"
         ports:
             - 1433:1433   
-    name: Build & test
+    name: Build, test & deploy
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -49,21 +49,9 @@ jobs:
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
           coverage-reports: test/**/coverage.opencover.xml
-
-  deploy:
-    name: Deploy to MyGet
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download artifact
-        uses: actions/download-artifact@v1.0.0
-        with:
-          name: FeatuR
       - name: Pack NuGet package
         run: dotnet pack --configuration Release --no-build --version-suffix "ci"
-        working-directory: ./FeatuR
       - name: Push package to MyGet
-        working-directory: ./FeatuR
         run: dotnet nuget push **/*.nupkg
               --api-key ${{ secrets.MYGET_DEPLOY_KEY }}
               --source https://www.myget.org/F/featur/api/v3/index.json
