@@ -14,12 +14,11 @@ jobs:
         with:
           dotnet-version: '3.1.x'
       - name: Build with dotnet
-        run: dotnet build --configuration Release --output ./artifacts
+        run: dotnet build --configuration Release
       - name: Upload artifact
         uses: actions/upload-artifact@v1.0.0
         with:
           name: FeatuR
-          path: ./artifacts
 
   unittests:
     name: Run unit tests
@@ -31,13 +30,10 @@ jobs:
         with:
           name: FeatuR
       - name: Run tests (FeatuR)
-        working-directory: ./artifacts
         run: dotnet test ./test/FeatuR.Tests/FeatuR.Tests.csproj --no-build -c Release -p:CollectCoverage=true -p:CoverletOutputFormat=opencover
       - name: Run tests (FeatuR.RestClient)
-        working-directory: ./
         run: dotnet test ./test/FeatuR.RestClient.Tests/FeatuR.RestClient.Tests.csproj --no-build -c Release -p:CollectCoverage=true -p:CoverletOutputFormat=opencover
       - name: Run tests (FeatuR.EntityFramework)
-        working-directory: ./
         run: dotnet test ./test/FeatuR.EntityFramework.Tests/FeatuR.EntityFramework.Tests.csproj --no-build -c Release -p:CollectCoverage=true -p:CoverletOutputFormat=opencover
 
   mysqltests:
