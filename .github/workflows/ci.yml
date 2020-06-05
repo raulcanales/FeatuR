@@ -5,8 +5,6 @@ on:
       - master
 jobs:
   build:
-    name: Build & Run tests
-    runs-on: ubuntu-latest
     services:
       mysql:
         image: mysql:5.7
@@ -15,6 +13,15 @@ jobs:
         ports:
             - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+      mssql:
+        image: mcr.microsoft.com/mssql/server:2017-latest
+        env:
+            ACCEPT_EULA: Y
+            SA_PASSWORD: "Pass@word"
+        ports:
+            - 1433:1433   
+    name: Build, test & deploy
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Setup .NET Core
@@ -23,23 +30,27 @@ jobs:
           dotnet-version: '3.1.x'
       - name: Build with dotnet
         run: dotnet build --configuration Release
-      - name: Test with dotnet
+      - name: Run tests (FeatuR)
+        run: dotnet test ./test/FeatuR.Tests/FeatuR.Tests.csproj --no-build -c Release -p:CollectCoverage=true -p:CoverletOutputFormat=opencover
+      - name: Run tests (FeatuR.RestClient)
+        run: dotnet test ./test/FeatuR.RestClient.Tests/FeatuR.RestClient.Tests.csproj --no-build -c Release -p:CollectCoverage=true -p:CoverletOutputFormat=opencover
+      - name: Run tests (FeatuR.EntityFramework)
+        run: dotnet test ./test/FeatuR.EntityFramework.Tests/FeatuR.EntityFramework.Tests.csproj --no-build -c Release -p:CollectCoverage=true -p:CoverletOutputFormat=opencover
+      - name: Run tests (MySQL)
         env:
           ConnectionStringMySQL: "Server=localhost; Port=${{ job.services.mysql.ports[3306] }}; User=root; Password=test123456; Database=featur;"
-        run: dotnet test ./FeatuR.sln --no-build -c Release -p:CollectCoverage=true -p:CoverletOutputFormat=opencover
+        run: dotnet test ./test/FeatuR.EntityFramework.MySQL.IntegrationTests/FeatuR.EntityFramework.MySQL.IntegrationTests.csproj --no-build -c Release -p:CollectCoverage=true -p:CoverletOutputFormat=opencover
+      - name: Run tests (MSSQL)
+        env:
+          ConnectionStringSqlServer: "Server=localhost,${{ job.services.mssql.ports[1433] }}; Uid=sa; Password=Pass@word; Database=featur;"
+        run: dotnet test ./test/FeatuR.EntityFramework.SqlServer.IntegrationTests/FeatuR.EntityFramework.SqlServer.IntegrationTests.csproj --no-build -c Release -p:CollectCoverage=true -p:CoverletOutputFormat=opencover
       - name: Upload test results to Codacy
         uses: codacy/codacy-coverage-reporter-action@master
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
           coverage-reports: test/**/coverage.opencover.xml
-  deploy:
-    name: Deploy to MyGet
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
       - name: Pack NuGet package
-        run: dotnet pack --configuration Release --version-suffix "ci"
+        run: dotnet pack --configuration Release --no-build --version-suffix "ci"
       - name: Push package to MyGet
         run: dotnet nuget push **/*.nupkg
               --api-key ${{ secrets.MYGET_DEPLOY_KEY }}
