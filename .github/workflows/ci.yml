@@ -36,11 +36,11 @@ jobs:
         run: dotnet test ./test/FeatuR.RestClient.Tests/FeatuR.RestClient.Tests.csproj --no-build -c Release -p:CollectCoverage=true -p:CoverletOutputFormat=opencover
       - name: Run tests (FeatuR.EntityFramework)
         run: dotnet test ./test/FeatuR.EntityFramework.Tests/FeatuR.EntityFramework.Tests.csproj --no-build -c Release -p:CollectCoverage=true -p:CoverletOutputFormat=opencover
-      - name: Test with dotnet
+      - name: Run tests (MySQL)
         env:
           ConnectionStringMySQL: "Server=localhost; Port=${{ job.services.mysql.ports[3306] }}; User=root; Password=test123456; Database=featur;"
-        run: dotnet test ./FeatuR.EntityFramework.MySQL.IntegrationTests/FeatuR.EntityFramework.MySQL.IntegrationTests.csproj --no-build -c Release -p:CollectCoverage=true -p:CoverletOutputFormat=opencover
-      - name: Test with dotnet
+        run: dotnet test ./test/FeatuR.EntityFramework.MySQL.IntegrationTests/FeatuR.EntityFramework.MySQL.IntegrationTests.csproj --no-build -c Release -p:CollectCoverage=true -p:CoverletOutputFormat=opencover
+      - name: Run tests (MSSQL)
         env:
           ConnectionStringMySQL: "Server=localhost,${{ job.services.mssql.ports[1433] }}; Uid=sa; Password=Pass@word; Database=featur;"
         run: dotnet test ./test/FeatuR.EntityFramework.SqlServer.IntegrationTests/FeatuR.EntityFramework.SqlServer.IntegrationTests.csproj --no-build -c Release -p:CollectCoverage=true -p:CoverletOutputFormat=opencover
