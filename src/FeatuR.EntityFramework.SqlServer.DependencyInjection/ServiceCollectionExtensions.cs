@@ -24,7 +24,7 @@ namespace FeatuR.EntityFramework.SqlServer.DependencyInjection
 
             services.AddDbContext<FeatuRDbContext>(options =>
             {
-                options.UseSqlServer(settings.GetConnectionString());
+                options.UseSqlServer(settings.GetConnectionString(), b => b.MigrationsAssembly("FeatuR.EntityFramework.SqlServer"));
             });
 
             services.AddScoped<IFeatureContext, FeatureContext>()

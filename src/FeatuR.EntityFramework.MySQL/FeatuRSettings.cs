@@ -5,7 +5,7 @@ namespace FeatuR.EntityFramework.MySQL
     public class FeatuRSettings
     {
         public string Host { get; set; }
-        public int Port { get; set; } = 1433;
+        public int Port { get; set; } = 3306;
         public string User { get; set; }
         public string Password { get; set; }
         public string Database { get; set; }
