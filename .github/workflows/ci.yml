@@ -4,41 +4,8 @@ on:
     branches:
       - master
 jobs:
-  codacy-coverage-reporter:
-    name: Codacy report
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@master
-      - name: Run Tests
-        run: dotnet test ./test/FeatuR.Tests/FeatuR.Tests.csproj -c Release -p:CollectCoverage=true -p:CoverletOutputFormat=opencover
-      - name: Run codacy-coverage-reporter
-        uses: codacy/codacy-coverage-reporter-action@master
-        with:
-          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-          coverage-reports: test/**/coverage.opencover.xml
-  sonarcloud:
-    name: SonarCloud report
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Sonarscanner for dotnet
-        uses: raulcanales/dotnet-sonarscanner@v2.2
-        with:
-          buildCommand: dotnet build ./FeatuR.sln -c Release
-          testCommand: dotnet test ./FeatuR.sln --no-build -c Release -p:CollectCoverage=true -p:CoverletOutputFormat=opencover
-          projectKey: raulcanales_FeatuR
-          projectName: FeatuR
-          sonarOrganisation: raulcanales
-          beginArguments: >
-              /d:sonar.verbose="false"
-              /d:sonar.exclusions="**/bin/**/*,**/obj/**/*"
-              /d:sonar.cs.opencover.reportsPaths="test/**/coverage.opencover.xml"
-              /d:sonar.coverage.exclusions='"**/*.cs","**/*.md"'
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   build:
-    name: Build
+    name: Build & Run tests
     runs-on: ubuntu-latest
     services:
       mysql:
@@ -59,7 +26,29 @@ jobs:
       - name: Test with dotnet
         env:
           ConnectionStringMySQL: "Server=localhost; Port=${{ job.services.mysql.ports[3306] }}; User=root; Password=test123456; Database=featur;"
-        run: dotnet test
+        run: dotnet test ./FeatuR.sln --no-build -c Release -p:CollectCoverage=true -p:CoverletOutputFormat=opencover
+      - name: Upload test results to Codacy
+        uses: codacy/codacy-coverage-reporter-action@master
+        with:
+          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+          coverage-reports: test/**/coverage.opencover.xml
+      - name: Sonarscanner for dotnet
+        uses: raulcanales/dotnet-sonarscanner@v2.2
+        with:
+          buildCommand: dotnet build ./FeatuR.sln -c Release
+          testCommand: dotnet test ./FeatuR.sln --no-build -c Release -p:CollectCoverage=true -p:CoverletOutputFormat=opencover
+          projectKey: raulcanales_FeatuR
+          projectName: FeatuR
+          sonarOrganisation: raulcanales
+          beginArguments: >
+              /d:sonar.verbose="false"
+              /d:sonar.exclusions="**/bin/**/*,**/obj/**/*"
+              /d:sonar.cs.opencover.reportsPaths="test/**/coverage.opencover.xml"
+              /d:sonar.coverage.exclusions='"**/*.cs","**/*.md"'
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ConnectionStringMySQL: "Server=localhost; Port=${{ job.services.mysql.ports[3306] }}; User=root; Password=test123456; Database=featur;"
   deploy:
     name: Deploy to MyGet
     needs: build
