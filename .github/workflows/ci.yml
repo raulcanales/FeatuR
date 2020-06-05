@@ -19,7 +19,7 @@ jobs:
         uses: actions/upload-artifact@v1.0.0
         with:
           name: FeatuR
-          path: FeatuR
+          path: ./
 
   unittests:
     name: Run unit tests
@@ -31,13 +31,13 @@ jobs:
         with:
           name: FeatuR
       - name: Run tests (FeatuR)
-        working-directory: ./FeatuR
+        working-directory: ./
         run: dotnet test ./test/FeatuR.Tests/FeatuR.Tests.csproj --no-build -c Release -p:CollectCoverage=true -p:CoverletOutputFormat=opencover
       - name: Run tests (FeatuR.RestClient)
-        working-directory: ./FeatuR
+        working-directory: ./
         run: dotnet test ./test/FeatuR.RestClient.Tests/FeatuR.RestClient.Tests.csproj --no-build -c Release -p:CollectCoverage=true -p:CoverletOutputFormat=opencover
       - name: Run tests (FeatuR.EntityFramework)
-        working-directory: ./FeatuR
+        working-directory: ./
         run: dotnet test ./test/FeatuR.EntityFramework.Tests/FeatuR.EntityFramework.Tests.csproj --no-build -c Release -p:CollectCoverage=true -p:CoverletOutputFormat=opencover
 
   mysqltests:
@@ -61,7 +61,7 @@ jobs:
         env:
           ConnectionStringMySQL: "Server=localhost; Port=${{ job.services.mysql.ports[3306] }}; User=root; Password=test123456; Database=featur;"
         run: dotnet test ./FeatuR.EntityFramework.MySQL.IntegrationTests/FeatuR.EntityFramework.MySQL.IntegrationTests.csproj --no-build -c Release -p:CollectCoverage=true -p:CoverletOutputFormat=opencover
-        working-directory: ./FeatuR
+        working-directory: ./
 
   mssqltests:
     name: Integration tests (MSSQL)
