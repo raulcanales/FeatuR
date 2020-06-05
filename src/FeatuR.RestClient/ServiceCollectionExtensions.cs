@@ -10,13 +10,13 @@ namespace FeatuR.RestClient
         private const string SectionName = "FeatuR";
 
         /// <summary>
-        /// Registers all the necessary services to make <see cref="IFeatureService"/> work as a rest client, pointing to another service specified in the <see cref="RestFeatureServiceSettings"/>.
+        /// Registers all the necessary services to make <see cref="IFeatureService"/> work as a rest client, pointing to another service specified in the <see cref="FeatuRSettings"/>.
         /// </summary>
         public static IServiceCollection AddRestFeatureService(this IServiceCollection services)
             => AddFeatuR(services, SectionName);
 
         /// <summary>
-        /// Registers all the necessary services to make <see cref="IFeatureService"/> work as a rest client, pointing to another service specified in the <see cref="RestFeatureServiceSettings"/>.
+        /// Registers all the necessary services to make <see cref="IFeatureService"/> work as a rest client, pointing to another service specified in the <see cref="FeatuRSettings"/>.
         /// </summary>
         public static IServiceCollection AddFeatuR(this IServiceCollection services, string configSection)
         {
@@ -25,11 +25,15 @@ namespace FeatuR.RestClient
             using (var serviceProvider = services.BuildServiceProvider())
                 configuration = serviceProvider.GetService<IConfiguration>();
 
-            var options = new RestFeatureServiceSettings();
-            configuration.GetSection(configSection).Bind(options);
-            options.ValidateSettings();
-            services.AddSingleton(options);
-            services.AddHttpClient<FeatureHttpClient>();
+            var settings = new FeatuRSettings();
+            configuration.GetSection(configSection).Bind(settings);
+            settings.ValidateSettings();
+            services.AddSingleton(settings);
+            services.AddHttpClient<FeatureHttpClient>(options =>
+            {
+                foreach (var kv in settings.Headers)
+                    options.DefaultRequestHeaders.Add(kv.Key, kv.Value);
+            });
             services.AddTransient<IFeatureService, RestFeatureService>();
             services.AddScoped<IFeatureContext, FeatureContext>();
             return services;
