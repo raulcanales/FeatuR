@@ -2,6 +2,18 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Description>Replaces the FeatureService for a rest client, to ask another service</Description>
+    <Copyright>Copyright Raul A. Canales</Copyright>
+    <AssemblyName>FeatuR.RestClient</AssemblyName>
+    <Title>FeatuR.RestClient</Title>
+    <PackageId>FeatuR.RestClient</PackageId>
+    <PackageTags>featur;feature;toggle;experimental;branch;http;rest</PackageTags>
+    <Authors>Raul A. Canales</Authors>
+    <PackageProjectUrl>https://github.com/raulcanales/FeatuR</PackageProjectUrl>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>git://github.com/raulcanales/FeatuR</RepositoryUrl>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageIcon>on_128.png</PackageIcon>
   </PropertyGroup>
 
   <ItemGroup>

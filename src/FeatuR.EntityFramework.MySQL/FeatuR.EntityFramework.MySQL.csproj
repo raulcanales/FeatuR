@@ -2,6 +2,18 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
+    <Description>Implements FeatureStore with EntityFramework using MySQL</Description>
+    <Copyright>Copyright Raul A. Canales</Copyright>
+    <AssemblyName>FeatuR.EntityFramework.MySQL</AssemblyName>
+    <Title>FeatuR.EntityFramework.MySQL</Title>
+    <PackageId>FeatuR.EntityFramework.MySQL</PackageId>
+    <PackageTags>featur;feature;toggle;experimental;branch</PackageTags>
+    <Authors>Raul A. Canales</Authors>
+    <PackageProjectUrl>https://github.com/raulcanales/FeatuR</PackageProjectUrl>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>git://github.com/raulcanales/FeatuR</RepositoryUrl>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageIcon>on_128.png</PackageIcon>
   </PropertyGroup>
 
   <ItemGroup>

@@ -1,7 +1,19 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <Description>Includes extension method to wire up FeatuR using MySQL as data store</Description>
+    <Copyright>Copyright Raul A. Canales</Copyright>
+    <AssemblyName>FeatuR.EntityFramework.MySQL.DependencyInjection</AssemblyName>
+    <Title>FeatuR.EntityFramework.MySQL.DependencyInjection</Title>
+    <PackageId>FeatuR.EntityFramework.MySQL.DependencyInjection</PackageId>
+    <PackageTags>featur;feature;toggle;experimental;branch</PackageTags>
+    <Authors>Raul A. Canales</Authors>
+    <PackageProjectUrl>https://github.com/raulcanales/FeatuR</PackageProjectUrl>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>git://github.com/raulcanales/FeatuR</RepositoryUrl>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageIcon>on_128.png</PackageIcon>
   </PropertyGroup>
 
   <ItemGroup>
