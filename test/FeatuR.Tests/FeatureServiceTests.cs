@@ -2,6 +2,8 @@ using FeatuR.Tests.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace FeatuR.Tests
@@ -18,7 +20,7 @@ namespace FeatuR.Tests
         }
 
         [Fact]
-        public void IsFeatureEnabled_HasNoStrategies_ReturnsFalse()
+        public async Task IsFeatureEnabled_HasNoStrategies_ReturnsFalse()
         {
             var featureId = Guid.NewGuid().ToString();
             InMemoryFeatureStore.Features.TryAdd(featureId, new Feature
@@ -27,42 +29,44 @@ namespace FeatuR.Tests
                 Enabled = true,
                 ActivationStrategies = new Dictionary<string, Dictionary<string, string>> { ["default"] = new Dictionary<string, string>() }
             });
-            var act = _sut.IsFeatureEnabled(featureId);
-            Assert.True(act);
+            Assert.True(_sut.IsFeatureEnabled(featureId));
+            Assert.True(await _sut.IsFeatureEnabledAsync(featureId, CancellationToken.None));
         }
 
         [Theory]
         [InlineData(null)]
         [InlineData("")]
         [InlineData(" ")]
-        public void IsFeatureEnabled_NullOrEmptyFeatureid_ThrowsException(string featureId)
+        public async Task IsFeatureEnabled_NullOrEmptyFeatureid_ThrowsException(string featureId)
         {
             Assert.Throws<ArgumentNullException>(() => _sut.IsFeatureEnabled(featureId));
+            await Assert.ThrowsAsync<ArgumentNullException>(async () => await _sut.IsFeatureEnabledAsync(featureId, CancellationToken.None));
         }
 
         [Fact]
-        public void IsFeatureEnabled_FeatureDoesntExist_ReturnsFalse()
+        public async Task IsFeatureEnabled_FeatureDoesntExist_ReturnsFalse()
         {
-            var act = _sut.IsFeatureEnabled("doesnt-exist");
-            Assert.False(act);
+            var featureId = "doesnt-exist";
+            Assert.False(_sut.IsFeatureEnabled(featureId));
+            Assert.False(await _sut.IsFeatureEnabledAsync(featureId, CancellationToken.None));
         }
 
         [Fact]
-        public void IsFeatureEnabled_FeatureWithoutActivationStrategies_ReturnsFalse()
+        public async Task IsFeatureEnabled_FeatureWithoutActivationStrategies_ReturnsFalse()
         {
             var featureId = Guid.NewGuid().ToString();
             InMemoryFeatureStore.Features.TryAdd(featureId, new Feature
             {
                 Id = featureId
             });
-            var act = _sut.IsFeatureEnabled(featureId);
-            Assert.False(act);
+            Assert.False(_sut.IsFeatureEnabled(featureId));
+            Assert.False(await _sut.IsFeatureEnabledAsync(featureId, CancellationToken.None));
         }
 
         [Theory]
         [InlineData("")]
         [InlineData(" ")]
-        public void IsFeatureEnabled_FeatureWithInvalidActivationStrategies_ReturnsFalse(string strategyId)
+        public async Task IsFeatureEnabled_FeatureWithInvalidActivationStrategies_ReturnsFalse(string strategyId)
         {
             var featureId = Guid.NewGuid().ToString();
             InMemoryFeatureStore.Features.TryAdd(featureId, new Feature
@@ -73,12 +77,12 @@ namespace FeatuR.Tests
                     [strategyId] = new Dictionary<string, string>()
                 }
             });
-            var act = _sut.IsFeatureEnabled(featureId);
-            Assert.False(act);
+            Assert.False(_sut.IsFeatureEnabled(featureId));
+            Assert.False(await _sut.IsFeatureEnabledAsync(featureId, CancellationToken.None));
         }
 
         [Fact]
-        public void IsFeatureEnabled_NonExistingStrategyHandler_ReturnsFalse()
+        public async Task IsFeatureEnabled_NonExistingStrategyHandler_ReturnsFalse()
         {
             var featureId = Guid.NewGuid().ToString();
             InMemoryFeatureStore.Features.TryAdd(featureId, new Feature
@@ -89,12 +93,12 @@ namespace FeatuR.Tests
                     ["doesntexist"] = new Dictionary<string, string>()
                 }
             });
-            var act = _sut.IsFeatureEnabled(featureId);
-            Assert.False(act);
+            Assert.False(_sut.IsFeatureEnabled(featureId));
+            Assert.False(await _sut.IsFeatureEnabledAsync(featureId, CancellationToken.None));
         }
 
         [Fact]
-        public void IsFeatureEnabled_DefaultStrategyHandler_ReturnsTrue()
+        public async Task IsFeatureEnabled_DefaultStrategyHandler_ReturnsTrue()
         {
             var featureId = Guid.NewGuid().ToString();
             InMemoryFeatureStore.Features.TryAdd(featureId, new Feature
@@ -106,12 +110,12 @@ namespace FeatuR.Tests
                     ["default"] = new Dictionary<string, string>()
                 }
             });
-            var act = _sut.IsFeatureEnabled(featureId);
-            Assert.True(act);
+            Assert.True(_sut.IsFeatureEnabled(featureId));
+            Assert.True(await _sut.IsFeatureEnabledAsync(featureId, CancellationToken.None));
         }
 
         [Fact]
-        public void GetEnabledFeatures_DefaultStrategyHandler_ReturnsTrue()
+        public async Task GetEnabledFeatures_DefaultStrategyHandler_ReturnsTrue()
         {
             string featureId;
             var enabledFeatures = 4;
@@ -130,8 +134,10 @@ namespace FeatuR.Tests
                 InMemoryFeatureStore.Features.TryAdd(featureId, FeatureExtensions.CreateFeatureWithDefaultStrategy(featureId, enabled: false));
             }
 
-            var act = _sut.GetEnabledFeatures(context: null);
-            Assert.Equal(0, act.Count(p => disabledFeatureIds.Any(f => f == p)));
+            var features = _sut.GetEnabledFeatures(context: null);
+            var featuresAsync = await _sut.GetEnabledFeaturesAsync(context: null, token: CancellationToken.None);
+            Assert.Equal(0, features.Count(p => disabledFeatureIds.Any(f => f == p)));
+            Assert.Equal(0, featuresAsync.Count(p => disabledFeatureIds.Any(f => f == p)));
         }
     }
 }

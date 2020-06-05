@@ -1,5 +1,7 @@
 ﻿using FeatuR.Strategies;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace FeatuR.Tests.StrategyTests
@@ -18,41 +20,43 @@ namespace FeatuR.Tests.StrategyTests
         }
 
         [Fact]
-        public void IsEnabled_UserIdNotSet_ReturnsFalse()
+        public async Task IsEnabled_UserIdNotSet_ReturnsFalse()
         {
             _activationParameters.Add(UserIdStrategyHandler.AllowedUserIdsParameterName, $"{UserIdStrategyHandler.Separator}user-id{UserIdStrategyHandler.Separator}");
-            var act = _sut.IsEnabled(_activationParameters, _context);
-            Assert.False(act);
+            Assert.False(_sut.IsEnabled(_activationParameters));
+            Assert.False(_sut.IsEnabled(_activationParameters, _context));
+            Assert.False(await _sut.IsEnabledAsync(_activationParameters, CancellationToken.None));
+            Assert.False(await _sut.IsEnabledAsync(_activationParameters, _context, CancellationToken.None));
         }
 
         [Fact]
-        public void IsEnabled_HasAllowedUserId_ReturnsTrue()
+        public async Task IsEnabled_HasAllowedUserId_ReturnsTrue()
         {
             var allowedUserId = "abcd123";
             _context.Parameters.Add(UserIdStrategyHandler.UserIdParameterName, allowedUserId);
             _activationParameters.Add(UserIdStrategyHandler.AllowedUserIdsParameterName, $"{UserIdStrategyHandler.Separator}{allowedUserId}{UserIdStrategyHandler.Separator}");
-            var act = _sut.IsEnabled(_activationParameters, _context);
-            Assert.True(act);
+            Assert.True(_sut.IsEnabled(_activationParameters, _context));
+            Assert.True(await _sut.IsEnabledAsync(_activationParameters, _context, CancellationToken.None));
         }
 
         [Fact]
-        public void IsEnabled_HasExcludedUserId_ReturnsFalse()
+        public async Task IsEnabled_HasExcludedUserId_ReturnsFalse()
         {
             var excludedUserId = "abcd123";
             _context.Parameters.Add(UserIdStrategyHandler.UserIdParameterName, excludedUserId);
             _activationParameters.Add(UserIdStrategyHandler.ExcludedUserIdsParameterName, $"{UserIdStrategyHandler.Separator}{excludedUserId}{UserIdStrategyHandler.Separator}");
-            var act = _sut.IsEnabled(_activationParameters, _context);
-            Assert.False(act);
+            Assert.False(_sut.IsEnabled(_activationParameters, _context));
+            Assert.False(await _sut.IsEnabledAsync(_activationParameters, _context, CancellationToken.None));
         }
 
         [Fact]
-        public void IsEnabled_UserNotExcluded_ReturnsTrue()
+        public async Task IsEnabled_UserNotExcluded_ReturnsTrue()
         {
             var userId = "abcd123";
             _context.Parameters.Add(UserIdStrategyHandler.UserIdParameterName, userId);
             _activationParameters.Add(UserIdStrategyHandler.ExcludedUserIdsParameterName, $"{UserIdStrategyHandler.Separator}another-user-id{UserIdStrategyHandler.Separator}");
-            var act = _sut.IsEnabled(_activationParameters, _context);
-            Assert.True(act);
+            Assert.True(_sut.IsEnabled(_activationParameters, _context));
+            Assert.True(await _sut.IsEnabledAsync(_activationParameters, _context, CancellationToken.None));
         }
     }
 }

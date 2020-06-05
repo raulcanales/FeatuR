@@ -1,8 +1,10 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Diagnostics.CodeAnalysis;
 
 namespace FeatuR.RestClient
 {
+    [ExcludeFromCodeCoverage]
     public static class ServiceCollectionExtensions
     {
         private const string SectionName = "FeatuR";
