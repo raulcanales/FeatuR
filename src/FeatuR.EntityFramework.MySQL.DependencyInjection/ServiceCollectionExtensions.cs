@@ -10,9 +10,9 @@ namespace FeatuR.EntityFramework.MySQL.DependencyInjection
     {
         public const string SectionName = "FeatuR";
 
-        public static IServiceCollection AddBlogR(this IServiceCollection services)
-            => AddBlogR(services, SectionName);
-        public static IServiceCollection AddBlogR(this IServiceCollection services, string sectionName)
+        public static IServiceCollection AddFeatuR(this IServiceCollection services)
+            => AddFeatuR(services, SectionName);
+        public static IServiceCollection AddFeatuR(this IServiceCollection services, string sectionName)
         {
             IConfiguration configuration;
             using (var serviceProvider = services.BuildServiceProvider())
