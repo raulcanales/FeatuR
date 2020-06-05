@@ -11,9 +11,9 @@ namespace FeatuR.RestClient
     public class FeatureHttpClient
     {
         private readonly HttpClient _httpClient;
-        private readonly RestFeatureServiceSettings _settings;
+        private readonly FeatuRSettings _settings;
 
-        public FeatureHttpClient(HttpClient httpClient, RestFeatureServiceSettings settings)
+        public FeatureHttpClient(HttpClient httpClient, FeatuRSettings settings)
         {
             _httpClient = httpClient;
             _settings = settings;
@@ -33,33 +33,24 @@ namespace FeatuR.RestClient
 
         private async Task<TResponse> Get<TResponse>(string endpoint, IFeatureContext context, CancellationToken token)
         {
-            try
-            {
-                SetHeadersFromContext(context);
-                using (var response = await _httpClient.GetAsync(endpoint, token))
-                {
-                    if (!response.IsSuccessStatusCode)
-                        return default;
-
-                    var content = await response.Content.ReadAsStringAsync();
-                    return JsonConvert.DeserializeObject<TResponse>(content);
-                }
-            }
-            catch
-            {
-                // silent exception
-            }
-
-            return default;
+            var request = new HttpRequestMessage(HttpMethod.Get, endpoint);
+            SetHeadersFromContext(request, context);
+            return await Send<TResponse>(request, token).ConfigureAwait(false);
         }
 
-        private async Task<TResponse> Post<TResponse>(object request, string endpoint, IFeatureContext context, CancellationToken token)
+        private async Task<TResponse> Post<TResponse>(object requestObject, string endpoint, IFeatureContext context, CancellationToken token)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Post, endpoint);
+            SetHeadersFromContext(request, context);
+            request.Content = new StringContent(JsonConvert.SerializeObject(requestObject), Encoding.UTF8, "application/json");
+            return await Send<TResponse>(request, token).ConfigureAwait(false);
+        }
+
+        private async Task<TResponse> Send<TResponse>(HttpRequestMessage request, CancellationToken token)
         {
             try
             {
-                SetHeadersFromContext(context);
-                var json = JsonConvert.SerializeObject(request);
-                using (var response = await _httpClient.PostAsync(endpoint, new StringContent(json, Encoding.UTF8, "application/json"), token))
+                using (var response = await _httpClient.SendAsync(request, token).ConfigureAwait(false))
                 {
                     if (!response.IsSuccessStatusCode)
                         return default;
@@ -76,13 +67,13 @@ namespace FeatuR.RestClient
             return default;
         }
 
-        private void SetHeadersFromContext(IFeatureContext context)
+        private void SetHeadersFromContext(HttpRequestMessage request, IFeatureContext context)
         {
             if (context == null)
                 return;
 
             foreach (var kv in context.Parameters)
-                _httpClient.DefaultRequestHeaders.Add(kv.Key, kv.Value);
+                request.Headers.Add(kv.Key, kv.Value);
         }
     }
 }

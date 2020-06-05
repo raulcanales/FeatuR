@@ -34,7 +34,6 @@ namespace FeatuR
 
         /// <inheritdoc />
         public IEnumerable<Feature> GetEnabledFeatures() => Features.Values.Where(f => f.Enabled);
-
         public Task<Feature> GetFeatureByIdAsync(string featureId) => Task.FromResult(GetFeatureById(featureId));
         public Task<Feature> GetFeatureByIdAsync(string featureId, CancellationToken token) => Task.FromResult(GetFeatureById(featureId));
         public Task<IEnumerable<Feature>> GetEnabledFeaturesAsync() => Task.FromResult(GetEnabledFeatures());
