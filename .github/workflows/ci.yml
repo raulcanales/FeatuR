@@ -60,7 +60,7 @@ jobs:
         run: dotnet build --configuration Release
       - name: Test with dotnet
         env:
-          ConnectionStringMYSQL: "Server=localhost; User=root; Password=test123456; Database=featur;"
+          ConnectionStringMySQL: "Server=localhost; User=root; Password=test123456; Database=featur;"
         run: dotnet test
   deploy:
     name: Deploy to MyGet
