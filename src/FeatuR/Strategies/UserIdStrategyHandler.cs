@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace FeatuR.Strategies
 {
@@ -27,10 +29,8 @@ namespace FeatuR.Strategies
         /// </summary>
         public static readonly string Separator = ",";
 
-        /// <inheritdoc />
         public bool IsEnabled(Dictionary<string, string> parameters)
             => IsEnabled(parameters, null);
-        /// <inheritdoc />
         public bool IsEnabled(Dictionary<string, string> parameters, IFeatureContext context)
         {
             var userId = string.Empty;
@@ -47,5 +47,10 @@ namespace FeatuR.Strategies
 
             return true;
         }
+
+        public Task<bool> IsEnabledAsync(Dictionary<string, string> parameters, CancellationToken token)
+            => Task.FromResult(IsEnabled(parameters, null));
+        public Task<bool> IsEnabledAsync(Dictionary<string, string> parameters, IFeatureContext context, CancellationToken token)
+            => Task.FromResult(IsEnabled(parameters, context));
     }
 }

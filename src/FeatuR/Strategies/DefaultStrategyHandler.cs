@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace FeatuR.Strategies
 {
@@ -7,11 +9,13 @@ namespace FeatuR.Strategies
     /// </summary>
     public class DefaultStrategyHandler : IStrategyHandler
     {
-        /// <inheritdoc />
         public bool IsEnabled(Dictionary<string, string> parameters)
-            => IsEnabled(parameters, null);
-        /// <inheritdoc />
+            => true;
         public bool IsEnabled(Dictionary<string, string> parameters, IFeatureContext context)
             => true;
+        public Task<bool> IsEnabledAsync(Dictionary<string, string> parameters, CancellationToken token)
+            => Task.FromResult(true);
+        public Task<bool> IsEnabledAsync(Dictionary<string, string> parameters, IFeatureContext context, CancellationToken token)
+            => Task.FromResult(true);
     }
 }

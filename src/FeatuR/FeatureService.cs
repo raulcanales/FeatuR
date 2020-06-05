@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace FeatuR
 {
@@ -19,24 +21,41 @@ namespace FeatuR
             _featureStore = featureStore;
         }
 
-        /// <inheritdoc />
         public bool IsFeatureEnabled(string featureId) => IsFeatureEnabledCore(featureId, null);
-        /// <inheritdoc />
+        public Task<bool> IsFeatureEnabledAsync(string featureId) => IsFeatureEnabledAsyncCore(featureId, null, CancellationToken.None);
+        public Task<bool> IsFeatureEnabledAsync(string featureId, CancellationToken token) => IsFeatureEnabledAsyncCore(featureId, null, token);
         public bool IsFeatureEnabled(string featureId, IFeatureContext context) => IsFeatureEnabledCore(featureId, context);
+        public Task<bool> IsFeatureEnabledAsync(string featureId, IFeatureContext context) => IsFeatureEnabledAsyncCore(featureId, context, CancellationToken.None);
+        public Task<bool> IsFeatureEnabledAsync(string featureId, IFeatureContext context, CancellationToken token) => IsFeatureEnabledAsyncCore(featureId, context, token);
 
-        /// <inheritdoc />
         public IEnumerable<string> GetEnabledFeatures(IFeatureContext context)
         {
             var featureIds = new List<string>();
-            foreach (var feature in _featureStore.GetEnabledFeatures())
+            var features = _featureStore.GetEnabledFeatures();
+            foreach (var feature in features)
             {
-                if (IsFeatureEnabled(feature.Id, context))
+                if (IsFeatureEnabledCore(feature, context))
+                    featureIds.Add(feature.Id);
+            }
+            return featureIds;
+        }
+        public Task<IEnumerable<string>> GetEnabledFeaturesAsync(IFeatureContext context) => GetEnabledFeaturesAsync(context, CancellationToken.None);
+
+        public async Task<IEnumerable<string>> GetEnabledFeaturesAsync(IFeatureContext context, CancellationToken token)
+        {
+            var featureIds = new List<string>();
+            var features = await _featureStore.GetEnabledFeaturesAsync(token);
+            bool isEnanled;
+            foreach (var feature in features)
+            {
+                isEnanled = await IsFeatureEnabledAsync(feature.Id, context, token).ConfigureAwait(false);
+                if (isEnanled)
                     featureIds.Add(feature.Id);
             }
             return featureIds;
         }
 
-        /// <inheritdoc />
+
         public IDictionary<string, bool> EvaluateFeatures(IEnumerable<string> featureIds, IFeatureContext context)
         {
             var result = new Dictionary<string, bool>();
@@ -46,6 +65,23 @@ namespace FeatuR
                     continue;
 
                 result.Add(featureId, IsFeatureEnabled(featureId, context));
+            }
+            return result;
+        }
+
+
+        public Task<IDictionary<string, bool>> EvaluateFeaturesAsync(IEnumerable<string> featureIds, IFeatureContext context) => EvaluateFeaturesAsync(featureIds, context, CancellationToken.None);
+        public async Task<IDictionary<string, bool>> EvaluateFeaturesAsync(IEnumerable<string> featureIds, IFeatureContext context, CancellationToken token)
+        {
+            var result = new Dictionary<string, bool>();
+            bool isEnabled;
+            foreach (var featureId in featureIds)
+            {
+                if (string.IsNullOrWhiteSpace(featureId) || result.ContainsKey(featureId))
+                    continue;
+
+                isEnabled = await IsFeatureEnabledAsync(featureId, context, token).ConfigureAwait(false);
+                result.Add(featureId, isEnabled);
             }
             return result;
         }
@@ -62,7 +98,18 @@ namespace FeatuR
                 throw new ArgumentNullException(featureId);
 
             var feature = _featureStore.GetFeatureById(featureId);
-            if (feature == null)
+            return IsFeatureEnabledCore(feature, context);
+        }
+
+        /// <summary>
+        /// Can be overrided in a derived class to control how this is implemented. By default, will retrieve a feature and run a foreach with all the activation strategies
+        /// </summary>
+        /// <param name="feature">The feature to evaluate</param>
+        /// <param name="context">Optional context</param>
+        /// <returns>Boolean indicating if the feature is considered enabled</returns>
+        protected virtual bool IsFeatureEnabledCore(Feature feature, IFeatureContext context)
+        {
+            if (feature == null || !feature.Enabled)
                 return false;
 
             if (feature.ActivationStrategies == null || !feature.ActivationStrategies.Any(kv => !string.IsNullOrWhiteSpace(kv.Key)))
@@ -73,6 +120,52 @@ namespace FeatuR
             {
                 handler = GetStrategyHandler(activationStrategy);
                 if (handler == null || !handler.IsEnabled(feature.ActivationStrategies[activationStrategy], context))
+                    return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Can be overrided in a derived class to control how this is implemented. By default, will retrieve a feature and run a foreach with all the activation strategies
+        /// </summary>
+        /// <param name="featureId">Required id of the feature</param>
+        /// <param name="context">Optional context</param>
+        /// <param name="token">Cancellation token</param>
+        /// <returns>Boolean indicating if the feature is considered enabled</returns>  
+        protected virtual async Task<bool> IsFeatureEnabledAsyncCore(string featureId, IFeatureContext context, CancellationToken token)
+        {
+            if (string.IsNullOrWhiteSpace(featureId))
+                throw new ArgumentNullException(featureId);
+
+            var feature = await _featureStore.GetFeatureByIdAsync(featureId, token).ConfigureAwait(false);
+            return await IsFeatureEnabledAsyncCore(feature, context, token).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Can be overrided in a derived class to control how this is implemented. By default, will retrieve a feature and run a foreach with all the activation strategies
+        /// </summary>
+        /// <param name="feature">The feature to evaluate</param>
+        /// <param name="context">Optional context</param>
+        /// <param name="token">Cancellation token</param>
+        /// <returns>Boolean indicating if the feature is considered enabled</returns>        
+        protected virtual async Task<bool> IsFeatureEnabledAsyncCore(Feature feature, IFeatureContext context, CancellationToken token)
+        {
+            if (feature == null || !feature.Enabled)
+                return false;
+
+            if (feature.ActivationStrategies == null || !feature.ActivationStrategies.Any(kv => !string.IsNullOrWhiteSpace(kv.Key)))
+                return false;
+
+            IStrategyHandler handler = null;
+            foreach (var activationStrategy in feature.ActivationStrategies.Keys)
+            {
+                handler = GetStrategyHandler(activationStrategy);
+                if (handler == null)
+                    return false;
+
+                var isEnabled = await handler.IsEnabledAsync(feature.ActivationStrategies[activationStrategy], context, token).ConfigureAwait(false);
+                if (!isEnabled)
                     return false;
             }
 

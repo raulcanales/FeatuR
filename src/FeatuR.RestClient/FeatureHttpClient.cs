@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace FeatuR.RestClient
@@ -21,21 +22,21 @@ namespace FeatuR.RestClient
                 _httpClient.Timeout = TimeSpan.FromSeconds(_settings.TimeoutSeconds);
         }
 
-        internal async Task<IDictionary<string, bool>> EvaluateFeaturesAsync(IEnumerable<string> featureIds, IFeatureContext context)
-            => await Post<IDictionary<string, bool>>(featureIds, _settings.EvaluateFeaturesEndpoint, context).ConfigureAwait(false);
+        internal async Task<IDictionary<string, bool>> EvaluateFeaturesAsync(IEnumerable<string> featureIds, IFeatureContext context, CancellationToken token)
+            => await Post<IDictionary<string, bool>>(featureIds, _settings.EvaluateFeaturesEndpoint, context, token).ConfigureAwait(false);
 
-        internal async Task<IEnumerable<string>> GetEnabledFeaturesAsync(IFeatureContext context)
-            => await Get<IEnumerable<string>>(_settings.GetAllEnabledFeaturesEndpoint, context).ConfigureAwait(false);
+        internal async Task<IEnumerable<string>> GetEnabledFeaturesAsync(IFeatureContext context, CancellationToken token)
+            => await Get<IEnumerable<string>>(_settings.GetAllEnabledFeaturesEndpoint, context, token).ConfigureAwait(false);
 
-        internal async Task<bool> IsFeatureEnabledAsync(string featureId, IFeatureContext context)
-            => await Get<bool>(_settings.IsFeatureEnabledEndpoint.Replace("{featureId}", featureId), context).ConfigureAwait(false);
+        internal async Task<bool> IsFeatureEnabledAsync(string featureId, IFeatureContext context, CancellationToken token)
+            => await Get<bool>(_settings.IsFeatureEnabledEndpoint.Replace("{featureId}", featureId), context, token).ConfigureAwait(false);
 
-        private async Task<TResponse> Get<TResponse>(string endpoint, IFeatureContext context)
+        private async Task<TResponse> Get<TResponse>(string endpoint, IFeatureContext context, CancellationToken token)
         {
             try
             {
                 SetHeadersFromContext(context);
-                using (var response = await _httpClient.GetAsync(endpoint))
+                using (var response = await _httpClient.GetAsync(endpoint, token))
                 {
                     if (!response.IsSuccessStatusCode)
                         return default;
@@ -52,13 +53,13 @@ namespace FeatuR.RestClient
             return default;
         }
 
-        private async Task<TResponse> Post<TResponse>(object request, string endpoint, IFeatureContext context)
+        private async Task<TResponse> Post<TResponse>(object request, string endpoint, IFeatureContext context, CancellationToken token)
         {
             try
             {
                 SetHeadersFromContext(context);
                 var json = JsonConvert.SerializeObject(request);
-                using (var response = await _httpClient.PostAsync(endpoint, new StringContent(json, Encoding.UTF8, "application/json")))
+                using (var response = await _httpClient.PostAsync(endpoint, new StringContent(json, Encoding.UTF8, "application/json"), token))
                 {
                     if (!response.IsSuccessStatusCode)
                         return default;

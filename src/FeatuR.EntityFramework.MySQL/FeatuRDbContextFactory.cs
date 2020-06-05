@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
+using System;
+using System.Reflection;
 
 namespace FeatuR.EntityFramework.MySQL
 {
@@ -7,9 +9,14 @@ namespace FeatuR.EntityFramework.MySQL
     {
         public FeatuRDbContext CreateDbContext(string[] args)
         {
+            const string EnvironmentVariable = "ConnectionStringMySQL";
+
+            var connectionString = Environment.GetEnvironmentVariable(EnvironmentVariable);
+            if (string.IsNullOrWhiteSpace(connectionString))
+                throw new ArgumentNullException($"Missing environment variable '{EnvironmentVariable}'");
+
             var builder = new DbContextOptionsBuilder<FeatuRDbContext>();
-            var connectionString = "Server=localhost,5434;Uid=sa;Password=Pass@word;Database=featur;";
-            builder.UseMySQL(connectionString);
+            builder.UseMySQL(connectionString, b => b.MigrationsAssembly(Assembly.GetExecutingAssembly().ToString()));
             return new FeatuRDbContext(builder.Options);
         }
     }

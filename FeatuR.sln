@@ -27,6 +27,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FeatuR.EntityFramework.MySQ
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FeatuR.EntityFramework.MySQL.DependencyInjection", "src\FeatuR.EntityFramework.MySQL.DependencyInjection\FeatuR.EntityFramework.MySQL.DependencyInjection.csproj", "{357D1A08-384A-4DE3-AA9B-99041D073689}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FeatuR.EntityFramework.MySQL.IntegrationTests", "test\FeatuR.EntityFramework.MySQL.IntegrationTests\FeatuR.EntityFramework.MySQL.IntegrationTests.csproj", "{DB3750A0-0B02-46D3-9733-AD87B8D80098}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -73,6 +75,10 @@ Global
 		{357D1A08-384A-4DE3-AA9B-99041D073689}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{357D1A08-384A-4DE3-AA9B-99041D073689}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{357D1A08-384A-4DE3-AA9B-99041D073689}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB3750A0-0B02-46D3-9733-AD87B8D80098}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB3750A0-0B02-46D3-9733-AD87B8D80098}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB3750A0-0B02-46D3-9733-AD87B8D80098}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB3750A0-0B02-46D3-9733-AD87B8D80098}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -88,6 +94,7 @@ Global
 		{E57059B3-6022-40F6-9AD5-85015F0FA149} = {33EB9376-C011-4731-8491-EF6025C49902}
 		{81103134-A227-49BC-BECC-765FD4A8499D} = {70E59C6C-618E-49D7-81E6-FF8E711432A8}
 		{357D1A08-384A-4DE3-AA9B-99041D073689} = {70E59C6C-618E-49D7-81E6-FF8E711432A8}
+		{DB3750A0-0B02-46D3-9733-AD87B8D80098} = {33EB9376-C011-4731-8491-EF6025C49902}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AC9DA31B-2142-4BC1-8684-012B35870A13}

@@ -1,5 +1,4 @@
 using FeatuR.Tests.Helpers;
-using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +24,7 @@ namespace FeatuR.Tests
             InMemoryFeatureStore.Features.TryAdd(featureId, new Feature
             {
                 Id = featureId,
+                Enabled = true,
                 ActivationStrategies = new Dictionary<string, Dictionary<string, string>> { ["default"] = new Dictionary<string, string>() }
             });
             var act = _sut.IsFeatureEnabled(featureId);
@@ -100,6 +100,7 @@ namespace FeatuR.Tests
             InMemoryFeatureStore.Features.TryAdd(featureId, new Feature
             {
                 Id = featureId,
+                Enabled = true,
                 ActivationStrategies = new Dictionary<string, Dictionary<string, string>>
                 {
                     ["default"] = new Dictionary<string, string>()
@@ -112,9 +113,10 @@ namespace FeatuR.Tests
         [Fact]
         public void GetEnabledFeatures_DefaultStrategyHandler_ReturnsTrue()
         {
-            var featureId = string.Empty;
+            string featureId;
             var enabledFeatures = 4;
             var disabledFeatures = 3;
+            var disabledFeatureIds = new List<string>();
             for (var i = 0; i < enabledFeatures; i++)
             {
                 featureId = Guid.NewGuid().ToString();
@@ -124,12 +126,12 @@ namespace FeatuR.Tests
             for (var i = 0; i < disabledFeatures; i++)
             {
                 featureId = Guid.NewGuid().ToString();
+                disabledFeatureIds.Add(featureId);
                 InMemoryFeatureStore.Features.TryAdd(featureId, FeatureExtensions.CreateFeatureWithDefaultStrategy(featureId, enabled: false));
             }
 
             var act = _sut.GetEnabledFeatures(context: null);
-
-            Assert.Equal(enabledFeatures, act.Count());
+            Assert.Equal(0, act.Count(p => disabledFeatureIds.Any(f => f == p)));
         }
     }
 }
