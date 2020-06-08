@@ -5,7 +5,7 @@ namespace FeatuR.EntityFramework.SqlServer
     public class FeatuRSettings
     {
         public string Host { get; set; }
-        public int Port { get; set; } = 5434;
+        public int Port { get; set; } = 1433;
         public string User { get; set; }
         public string Password { get; set; }
         public string Database { get; set; }
