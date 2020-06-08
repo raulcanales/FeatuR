@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FeatuR.EntityFramework.MySQL.Migrations
 {
     [DbContext(typeof(FeatuRDbContext))]
-    [Migration("20200605130624_InitialSchema")]
+    [Migration("20200608161358_InitialSchema")]
     partial class InitialSchema
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -21,22 +21,22 @@ namespace FeatuR.EntityFramework.MySQL.Migrations
             modelBuilder.Entity("FeatuR.Feature", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("varchar(767)");
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.Property<string>("ActivationStrategies")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("Description")
-                        .HasColumnType("varchar(512)")
+                        .HasColumnType("varchar(512) CHARACTER SET utf8mb4")
                         .HasMaxLength(512);
 
                     b.Property<bool>("Enabled")
-                        .HasColumnType("bit");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("varchar(140)")
+                        .HasColumnType("varchar(140) CHARACTER SET utf8mb4")
                         .HasMaxLength(140);
 
                     b.HasKey("Id");
