@@ -5,6 +5,12 @@ Currently, the core library is out, and can be used on projects as well as exten
 
 The future plans, will include a standalone API service with a small database, that could be used on a distributed system, as well as rest clients to consume such API (or your own implementation of it).
 
+## Getting started
+
+Check out the [documentation](https://github.com/raulcanales/FeatuR/wiki), or jump straight to [an example of an API using MySQL](https://github.com/raulcanales/FeatuR.Standalone.MySQL/) as data storage for the feature data.
+
+## Project status
+
 |                   |  |
 |-------------------|--------|
 | &nbsp;&nbsp;**Build**            |    ![CI](https://github.com/raulcanales/FeatuR/workflows/CI/badge.svg)   |
@@ -23,12 +29,3 @@ The future plans, will include a standalone API service with a small database, t
 | &nbsp;&nbsp;**FeatuR.EntityFramework.SqlServer**        |    [![NuGet Badge](https://buildstats.info/nuget/FeatuR.EntityFramework.SqlServer)](https://www.nuget.org/packages/FeatuR.EntityFramework.SqlServer)   |   [![MyGet Badge](https://buildstats.info/myget/featur/FeatuR.EntityFramework.SqlServer)](https://www.myget.org/feed/featur/package/nuget/FeatuR.EntityFramework.SqlServer)   |
 | &nbsp;&nbsp;**FeatuR.EntityFramework.SqlServer.DependencyInjection**        |    [![NuGet Badge](https://buildstats.info/nuget/FeatuR.EntityFramework.SqlServer.DependencyInjection)](https://www.nuget.org/packages/FeatuR.EntityFramework.SqlServer.DependencyInjection)   |   [![MyGet Badge](https://buildstats.info/myget/featur/FeatuR.EntityFramework.SqlServer.DependencyInjection)](https://www.myget.org/feed/featur/package/nuget/FeatuR.EntityFramework.SqlServer.DependencyInjection)   |
 
-### Roadmap
-
-- [x] Core FeatuR library
-- [x] Create and publish Rest client implementation for IFeatureService
-- [x] Create and publish MSSQL implementation for IFeatureStore
-- [x] Create and publish MySQL implementation for IFeatureStore
-- [ ] Write documentation
-- [ ] Add extra activation strategies
-- [ ] Add more samples
