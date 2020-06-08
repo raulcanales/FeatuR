@@ -46,7 +46,7 @@ namespace FeatuR.EntityFramework.MySQL.IntegrationTests.Fixtures
                 throw new InvalidOperationException($"Couldn't find the environment variable '{EnvironmentVariable}'");
 
             var builder = new DbContextOptionsBuilder<FeatuRDbContext>();
-            builder.UseMySQL(connectionString, x => x.MigrationsAssembly("FeatuR.EntityFramework.MySQL"));
+            builder.UseMySql(connectionString, x => x.MigrationsAssembly("FeatuR.EntityFramework.MySQL"));
             var context = new FeatuRDbContext(builder.Options);
             context.Database.Migrate(); // Generate the database
             return context;
