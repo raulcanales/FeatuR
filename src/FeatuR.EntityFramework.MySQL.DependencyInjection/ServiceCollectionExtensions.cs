@@ -24,7 +24,7 @@ namespace FeatuR.EntityFramework.MySQL.DependencyInjection
 
             services.AddDbContext<FeatuRDbContext>(options =>
             {
-                options.UseMySQL(settings.GetConnectionString(), b => b.MigrationsAssembly("FeatuR.EntityFramework.MySQL"));
+                options.UseMySql(settings.GetConnectionString(), b => b.MigrationsAssembly("FeatuR.EntityFramework.MySQL"));
             });
 
             services.AddScoped<IFeatureContext, FeatureContext>()

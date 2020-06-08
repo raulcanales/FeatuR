@@ -16,7 +16,7 @@ namespace FeatuR.EntityFramework.MySQL
                 throw new ArgumentNullException($"Missing environment variable '{EnvironmentVariable}'");
 
             var builder = new DbContextOptionsBuilder<FeatuRDbContext>();
-            builder.UseMySQL(connectionString, b => b.MigrationsAssembly(Assembly.GetExecutingAssembly().ToString()));
+            builder.UseMySql(connectionString, b => b.MigrationsAssembly(Assembly.GetExecutingAssembly().ToString()));
             return new FeatuRDbContext(builder.Options);
         }
     }
