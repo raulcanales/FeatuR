@@ -1,4 +1,4 @@
-# FeatuR
+# ![Project Icon](assets/logo/on_32.png) FeatuR
 A simple feature toggle system, to manage experimental features with customizable activation strategies.
 
 Currently, the core library is out, and can be used on projects as well as extend it to your needs, create your custom activation strategies, etc.
