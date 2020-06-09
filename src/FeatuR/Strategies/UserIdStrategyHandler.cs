@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 namespace FeatuR.Strategies
 {
     /// <summary>
-    /// Evaluates the user id to determine if a feature should be enabled.
+    /// Evaluates the user id to determine if a feature should be enabled for this user.
     /// </summary>
     public class UserIdStrategyHandler : IStrategyHandler
     {
@@ -31,6 +31,7 @@ namespace FeatuR.Strategies
 
         public bool IsEnabled(Dictionary<string, string> parameters)
             => IsEnabled(parameters, null);
+
         public bool IsEnabled(Dictionary<string, string> parameters, IFeatureContext context)
         {
             var userId = string.Empty;
@@ -50,6 +51,7 @@ namespace FeatuR.Strategies
 
         public Task<bool> IsEnabledAsync(Dictionary<string, string> parameters, CancellationToken token)
             => Task.FromResult(IsEnabled(parameters, null));
+
         public Task<bool> IsEnabledAsync(Dictionary<string, string> parameters, IFeatureContext context, CancellationToken token)
             => Task.FromResult(IsEnabled(parameters, context));
     }

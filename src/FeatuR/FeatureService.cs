@@ -87,7 +87,7 @@ namespace FeatuR
         }
 
         /// <summary>
-        /// Can be overrided in a derived class to control how this is implemented. By default, will retrieve a feature and run a foreach with all the activation strategies
+        /// Can be overridden in a derived class to control how this is implemented. By default, will retrieve a feature and run a foreach with all the activation strategies
         /// </summary>
         /// <param name="featureId">Required id of the feature</param>
         /// <param name="context">Optional context</param>
@@ -102,7 +102,7 @@ namespace FeatuR
         }
 
         /// <summary>
-        /// Can be overrided in a derived class to control how this is implemented. By default, will retrieve a feature and run a foreach with all the activation strategies
+        /// Can be overridden in a derived class to control how this is implemented. By default, will retrieve a feature and run a foreach with all the activation strategies
         /// </summary>
         /// <param name="feature">The feature to evaluate</param>
         /// <param name="context">Optional context</param>
@@ -127,7 +127,7 @@ namespace FeatuR
         }
 
         /// <summary>
-        /// Can be overrided in a derived class to control how this is implemented. By default, will retrieve a feature and run a foreach with all the activation strategies
+        /// Can be overridden in a derived class to control how this is implemented. By default, will retrieve a feature and run a foreach with all the activation strategies
         /// </summary>
         /// <param name="featureId">Required id of the feature</param>
         /// <param name="context">Optional context</param>
@@ -143,7 +143,7 @@ namespace FeatuR
         }
 
         /// <summary>
-        /// Can be overrided in a derived class to control how this is implemented. By default, will retrieve a feature and run a foreach with all the activation strategies
+        /// Can be overridden in a derived class to control how this is implemented. By default, will retrieve a feature and run a foreach with all the activation strategies
         /// </summary>
         /// <param name="feature">The feature to evaluate</param>
         /// <param name="context">Optional context</param>
@@ -173,7 +173,7 @@ namespace FeatuR
         }
 
         /// <summary>
-        /// Can be overrided in a derived class to control how to resolve types of <see cref="IStrategyHandler"/>
+        /// Can be overridden in a derived class to control how to resolve types of <see cref="IStrategyHandler"/>
         /// </summary>
         protected virtual IStrategyHandler GetStrategyHandler(string activationStrategy)
         {
@@ -190,7 +190,7 @@ namespace FeatuR
         }
 
         /// <summary>
-        /// Can be overrided in a derived class to control how to resolve implementations of <see cref="IStrategyHandler"/>
+        /// Can be overridden in a derived class to control how to resolve implementations of <see cref="IStrategyHandler"/>
         /// </summary>
         protected virtual Type ResolveStrategyHandlerType(string strategyName)
         {
