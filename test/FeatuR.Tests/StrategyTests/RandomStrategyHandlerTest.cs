@@ -10,26 +10,24 @@ namespace FeatuR.Tests.StrategyTests
     {
         private readonly RandomStrategyHandler _sut;
         private readonly IFeatureContext _context;
-        private readonly Dictionary<string, string> _activationStrategies;
+        private readonly Dictionary<string, string> _activationParameters;
 
         public RandomStrategyHandlerTest()
         {
             _sut = new RandomStrategyHandler();
             _context = new FeatureContext();
-            _activationStrategies = new Dictionary<string, string>();
+            _activationParameters = new Dictionary<string, string>();
         }
 
         [Fact]
         public async Task IsEnabled_ShouldBeRandomlyEnabled()
         {
             var results = new List<bool>();
-            _context.Parameters.Add("", "");
-            _activationStrategies.Add("", "");
 
             for (int i = 0; i < 100; i++)
             {
-                results.Add(_sut.IsEnabled(_activationStrategies, _context));
-                results.Add(await _sut.IsEnabledAsync(_activationStrategies, _context, CancellationToken.None));
+                results.Add(_sut.IsEnabled(_activationParameters, _context));
+                results.Add(await _sut.IsEnabledAsync(_activationParameters, _context, CancellationToken.None));
             }
 
             Assert.Contains(true, results);
