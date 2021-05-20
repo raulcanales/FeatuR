@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 
 namespace FeatuR.EntityFramework.MySQL.DependencyInjection
 {
@@ -11,8 +12,15 @@ namespace FeatuR.EntityFramework.MySQL.DependencyInjection
         public const string SectionName = "FeatuR";
 
         public static IServiceCollection AddFeatuR(this IServiceCollection services)
-            => AddFeatuR(services, SectionName);
+            => AddFeatuR(services, SectionName, Assembly.GetExecutingAssembly());
+
+        public static IServiceCollection AddFeatuR(this IServiceCollection services, Assembly assembly)
+            => AddFeatuR(services, SectionName, assembly);
+
         public static IServiceCollection AddFeatuR(this IServiceCollection services, string sectionName)
+            => AddFeatuR(services, sectionName, Assembly.GetExecutingAssembly());
+
+        public static IServiceCollection AddFeatuR(this IServiceCollection services, string sectionName, Assembly assembly)
         {
             IConfiguration configuration;
             using (var serviceProvider = services.BuildServiceProvider())
@@ -30,6 +38,8 @@ namespace FeatuR.EntityFramework.MySQL.DependencyInjection
             services.AddScoped<IFeatureContext, FeatureContext>()
                     .AddScoped<IFeatureStore, EntityFrameworkFeatureStore>()
                     .AddScoped<IFeatureService, FeatureService>();
+
+            StrategyHandlerStore.InitializeHandlers(assembly);
 
             return services;
         }

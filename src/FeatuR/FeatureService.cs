@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -13,12 +10,13 @@ namespace FeatuR
     public class FeatureService : IFeatureService
     {
         private readonly IFeatureStore _featureStore;
-        private static readonly ConcurrentDictionary<string, object> _strategyHandlers = new ConcurrentDictionary<string, object>();
+        private readonly StrategyHandlerStore _strategyHandlerStore;
 
         /// <inheritdoc />
-        public FeatureService(IFeatureStore featureStore)
+        public FeatureService(IFeatureStore featureStore, StrategyHandlerStore strategyHandlerStore)
         {
             _featureStore = featureStore;
+            _strategyHandlerStore = strategyHandlerStore;
         }
 
         public bool IsFeatureEnabled(string featureId) => IsFeatureEnabledCore(featureId, null);
@@ -118,7 +116,7 @@ namespace FeatuR
             IStrategyHandler handler = null;
             foreach (var activationStrategy in feature.ActivationStrategies.Keys)
             {
-                handler = GetStrategyHandler(activationStrategy);
+                handler = _strategyHandlerStore.GetStrategyHandler(activationStrategy);
                 if (handler == null || !handler.IsEnabled(feature.ActivationStrategies[activationStrategy], context))
                     return false;
             }
@@ -160,7 +158,7 @@ namespace FeatuR
             IStrategyHandler handler = null;
             foreach (var activationStrategy in feature.ActivationStrategies.Keys)
             {
-                handler = GetStrategyHandler(activationStrategy);
+                handler = _strategyHandlerStore.GetStrategyHandler(activationStrategy);
                 if (handler == null)
                     return false;
 
@@ -170,40 +168,6 @@ namespace FeatuR
             }
 
             return true;
-        }
-
-        /// <summary>
-        /// Can be overridden in a derived class to control how to resolve types of <see cref="IStrategyHandler"/>
-        /// </summary>
-        protected virtual IStrategyHandler GetStrategyHandler(string activationStrategy)
-        {
-            var strategyName = activationStrategy.ToLower(CultureInfo.InvariantCulture);
-            if (_strategyHandlers.ContainsKey(strategyName))
-                return _strategyHandlers[activationStrategy] as IStrategyHandler;
-            else
-            {
-                var type = ResolveStrategyHandlerType(strategyName);
-                if (type != null)
-                    return _strategyHandlers.GetOrAdd(strategyName, t => Activator.CreateInstance(type)) as IStrategyHandler;
-            }
-            return null;
-        }
-
-        /// <summary>
-        /// Can be overridden in a derived class to control how to resolve implementations of <see cref="IStrategyHandler"/>
-        /// </summary>
-        protected virtual Type ResolveStrategyHandlerType(string strategyName)
-        {
-            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
-            foreach (var assembly in assemblies)
-            {
-                foreach (TypeInfo typeInfo in assembly.DefinedTypes)
-                {
-                    if (typeInfo.ImplementedInterfaces.Contains(typeof(IStrategyHandler)) && typeInfo.Name.ToLower(CultureInfo.InvariantCulture).Equals($"{strategyName}strategyhandler"))
-                        return typeInfo.AsType();
-                }
-            }
-            return null;
         }
     }
 }
