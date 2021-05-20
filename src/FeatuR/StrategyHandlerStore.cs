@@ -12,13 +12,12 @@ namespace FeatuR
     {
         private static readonly ConcurrentDictionary<string, object> _strategyHandlers = new ConcurrentDictionary<string, object>();
 
-
         public static void InitializeHandlers(Assembly executingAssembly)
         {
             var assemblies = new List<Assembly> { executingAssembly };
             assemblies.AddRange(AppDomain.CurrentDomain.GetAssemblies());
 
-            foreach(var assembly in assemblies)
+            foreach (var assembly in assemblies)
             {
                 LoadStrategyHandlersFromAssembly(assembly);
             }
