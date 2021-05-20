@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 
 namespace FeatuR.DependencyInjection
 {
@@ -9,9 +10,16 @@ namespace FeatuR.DependencyInjection
     {
         public const string SectionName = "FeatuR";
 
-        public static IServiceCollection AddBlogR(this IServiceCollection services)
-            => AddBlogR(services, SectionName);
-        public static IServiceCollection AddBlogR(this IServiceCollection services, string sectionName)
+        public static IServiceCollection AddFeatuR(this IServiceCollection services)
+            => AddFeatuR(services, SectionName, Assembly.GetExecutingAssembly());
+
+        public static IServiceCollection AddFeatuR(this IServiceCollection services, Assembly assembly)
+            => AddFeatuR(services, SectionName, assembly);
+
+        public static IServiceCollection AddFeatuR(this IServiceCollection services, string sectionName)
+            => AddFeatuR(services, sectionName, Assembly.GetExecutingAssembly());
+
+        public static IServiceCollection AddFeatuR(this IServiceCollection services, string sectionName, Assembly assembly)
         {
             IConfiguration configuration;
             using (var serviceProvider = services.BuildServiceProvider())
@@ -31,6 +39,8 @@ namespace FeatuR.DependencyInjection
             services.AddScoped<IFeatureContext, FeatureContext>()
                     .AddScoped<IFeatureStore, InMemoryFeatureStore>()
                     .AddScoped<IFeatureService, FeatureService>();
+
+            StrategyHandlerStore.InitializeHandlers(assembly);
 
             return services;
         }
