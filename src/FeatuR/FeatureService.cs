@@ -194,11 +194,14 @@ namespace FeatuR
         /// </summary>
         protected virtual Type ResolveStrategyHandlerType(string strategyName)
         {
-            var assembly = Assembly.GetExecutingAssembly();
-            foreach (TypeInfo typeInfo in assembly.DefinedTypes)
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            foreach (var assembly in assemblies)
             {
-                if (typeInfo.ImplementedInterfaces.Contains(typeof(IStrategyHandler)) && typeInfo.Name.ToLower(CultureInfo.InvariantCulture).Equals($"{strategyName}strategyhandler"))
-                    return typeInfo.AsType();
+                foreach (TypeInfo typeInfo in assembly.DefinedTypes)
+                {
+                    if (typeInfo.ImplementedInterfaces.Contains(typeof(IStrategyHandler)) && typeInfo.Name.ToLower(CultureInfo.InvariantCulture).Equals($"{strategyName}strategyhandler"))
+                        return typeInfo.AsType();
+                }
             }
             return null;
         }
