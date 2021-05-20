@@ -48,14 +48,11 @@ namespace FeatuR
 
         private Type ResolveStrategyHandlerType(string strategyName)
         {
-            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
-            foreach (var assembly in assemblies)
+            var assembly = Assembly.GetExecutingAssembly();
+            foreach (TypeInfo typeInfo in assembly.DefinedTypes)
             {
-                foreach (TypeInfo typeInfo in assembly.DefinedTypes)
-                {
-                    if (typeInfo.ImplementedInterfaces.Contains(typeof(IStrategyHandler)) && typeInfo.Name.ToLower(CultureInfo.InvariantCulture).Equals($"{strategyName}strategyhandler"))
-                        return typeInfo.AsType();
-                }
+                if (typeInfo.ImplementedInterfaces.Contains(typeof(IStrategyHandler)) && typeInfo.Name.ToLower(CultureInfo.InvariantCulture).Equals($"{strategyName}strategyhandler"))
+                    return typeInfo.AsType();
             }
             return null;
         }

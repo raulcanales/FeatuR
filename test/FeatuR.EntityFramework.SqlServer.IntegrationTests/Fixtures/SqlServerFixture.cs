@@ -14,7 +14,7 @@ namespace FeatuR.EntityFramework.SqlServer.IntegrationTests.Fixtures
             DbContext = CreateDbContext();
             PopulateDbContext();
             var store = new EntityFrameworkFeatureStore(DbContext);
-            Sut = new FeatureService(store);
+            Sut = new FeatureService(store, new StrategyHandlerStore());
         }
 
         public void Dispose()

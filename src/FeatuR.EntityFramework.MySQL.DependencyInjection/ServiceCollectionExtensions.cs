@@ -37,7 +37,8 @@ namespace FeatuR.EntityFramework.MySQL.DependencyInjection
 
             services.AddScoped<IFeatureContext, FeatureContext>()
                     .AddScoped<IFeatureStore, EntityFrameworkFeatureStore>()
-                    .AddScoped<IFeatureService, FeatureService>();
+                    .AddScoped<IFeatureService, FeatureService>()
+                    .AddSingleton<StrategyHandlerStore>();
 
             StrategyHandlerStore.InitializeHandlers(assembly);
 
