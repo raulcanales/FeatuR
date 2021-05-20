@@ -16,7 +16,7 @@ namespace FeatuR.Tests
         public FeatureServiceTests()
         {
             _store = new InMemoryFeatureStore();
-            _sut = new FeatureService(_store);
+            _sut = new FeatureService(_store, new StrategyHandlerStore());
         }
 
         [Fact]

@@ -38,7 +38,8 @@ namespace FeatuR.DependencyInjection
 
             services.AddScoped<IFeatureContext, FeatureContext>()
                     .AddScoped<IFeatureStore, InMemoryFeatureStore>()
-                    .AddScoped<IFeatureService, FeatureService>();
+                    .AddScoped<IFeatureService, FeatureService>()
+                    .AddSingleton<StrategyHandlerStore>();
 
             StrategyHandlerStore.InitializeHandlers(assembly);
 
